@@ -7,12 +7,14 @@ import EndCallButton from '../Buttons/EndCallButton/EndCallButton';
 import FlipCameraButton from './FlipCameraButton/FlipCameraButton';
 import Menu from './Menu/Menu';
 
+
 import useRoomState from '../../hooks/useRoomState/useRoomState';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import ToggleAudioButton from '../Buttons/ToggleAudioButton/ToggleAudioButton';
 import ToggleVideoButton from '../Buttons/ToggleVideoButton/ToggleVideoButton';
 import ToggleScreenShareButton from '../Buttons/ToogleScreenShareButton/ToggleScreenShareButton';
 import TownSettings from '../../../../Login/TownSettings';
+import Profile from '../../../../Profile/Profile';
 import MenuContainer from '@material-ui/core/Menu';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -91,6 +93,7 @@ export default function MenuBar(props: { setMediaError?(error: Error): void }) {
           <Hidden smDown>
             <Grid style={{ flex: 1 }}>
               <Grid container justify="flex-end">
+                <Profile />
                 <TownSettings />
 
                 <Menu />
