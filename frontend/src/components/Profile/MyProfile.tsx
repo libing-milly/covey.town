@@ -32,7 +32,7 @@ import {
 
 ];
 
-  const Profile: React.FunctionComponent = () => {
+  const MyProfile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
     const [email, setEmail] = useState('1@email.com');
@@ -69,14 +69,14 @@ import {
 
     }
 
-    function getProfiles() {
+    function getProfile() {
         setLoading(true);
         setProfile({newUserName: userName, newPassword: password, newIntroduction: introduction, newPicture: picture});
         
       }
     
       useEffect(() => {
-        getProfiles();
+        getProfile();
       }, []);
 
       const changeProfilePic = () => {
@@ -85,7 +85,7 @@ import {
 
     return <>
     <MenuItem data-testid='openMenuButton' onClick={openProfile}>
-      <Typography variant="body1">Profile</Typography>
+      <Typography variant="body1">Edit Profile</Typography>
     </MenuItem>
     <Modal isOpen={isOpen} onClose={closeProfile}>
       <ModalOverlay/>
@@ -144,4 +144,4 @@ import {
   </>
 }
 
-export default Profile;
+export default MyProfile;
