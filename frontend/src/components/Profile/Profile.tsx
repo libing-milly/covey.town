@@ -1,10 +1,13 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {
+    Avatar,
     Button,
-    Checkbox,
+    Textarea,
+    Text,
     FormControl,
     FormLabel,
     Input,
+    Select,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -13,21 +16,36 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
-    useToast
+    useToast,
+    VStack,
+    Box,
   } from '@chakra-ui/react';
   import MenuItem from '@material-ui/core/MenuItem';
   import Typography from '@material-ui/core/Typography';
   import useCoveyAppState from '../../hooks/useCoveyAppState';
   import useMaybeVideo from '../../hooks/useMaybeVideo';
 
+  const pictureOptions = [
+    {value:'https://bit.ly/code-beast', name:'code beast'},
+    {value:'https://bit.ly/sage-adebayo', name:'sage-adebayo'},
+    {value:'https://bit.ly/dan-abramov', name:'dan-abramov'}
+
+];
+
   const Profile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('1@email.com');
     const {userName} = useCoveyAppState();
     const [newUserName, setNewUserName] = useState('');
-    const [password, setPassword] = useState('');
-    const [introduction, setIntroduction] = useState('');
+    const [password, setPassword] = useState('12345');
+    const [introduction, setIntroduction] = useState('my intro');
+    const [picture, setPicture] = useState(pictureOptions[0]);
+    const [loading, setLoading] = useState(false);
+    const [profile, setProfile] = useState({newUserName: '', newPassword: '', newIntroduction: '', newPicture: pictureOptions[0]});
+
+    
+
 
     const openProfile = useCallback(()=>{
         onOpen();
@@ -41,10 +59,29 @@ import {
     
       const toast = useToast()
 
-    const handleUpdate = (action: string) => {
+    const handleUpdate = () => {
+        if(newUserName.length === 0)
+        toast({
+            title: 'Profile undated',
+            description: 'Your profile is successfully updated',
+            status: 'success',
+          });
 
     }
 
+    function getProfiles() {
+        setLoading(true);
+        setProfile({newUserName: userName, newPassword: password, newIntroduction: introduction, newPicture: picture});
+        
+      }
+    
+      useEffect(() => {
+        getProfiles();
+      }, []);
+
+      const changeProfilePic = () => {
+
+      }
 
     return <>
     <MenuItem data-testid='openMenuButton' onClick={openProfile}>
@@ -53,27 +90,50 @@ import {
     <Modal isOpen={isOpen} onClose={closeProfile}>
       <ModalOverlay/>
       <ModalContent>
-        <ModalHeader>Edit profile {userName} </ModalHeader>
+        <ModalHeader>Edit profile</ModalHeader>
         <ModalCloseButton/>
-        <form onSubmit={(ev)=>{ev.preventDefault(); handleUpdate('edit')}}>
+        <form onSubmit={(ev)=>{ev.preventDefault(); handleUpdate()}}>
           <ModalBody pb={6}>
+            <VStack
+                spacing={4}
+                align="center"
+                >
+                <Box>
+                    <Text fontSize="20px">Email: {email}</Text>
+                </Box>
+                <Box>
+                    <Avatar
+                        borderRadius="full"
+                        boxSize="150px"
+                        src={picture.value}
+                    />
+                </Box>
+                <Box>
+                    <Select value={picture.value} onChange={(ev)=>setPicture( {value: ev.target.value, name: ev.target.name})}>
+                        <option value={pictureOptions[0].value}>{pictureOptions[0].name}</option>
+                        <option value={pictureOptions[1].value}>{pictureOptions[1].name}</option>
+                        <option value={pictureOptions[2].value}>{pictureOptions[2].name}</option>
+                    </Select>
+                </Box>
+                
+            </VStack>    
+                              
             <FormControl>
               <FormLabel htmlFor='userName'>User Name</FormLabel>
-              <Input id='userName' placeholder="User Name" name="userName" value={newUserName} onChange={(ev)=>setNewUserName(ev.target.value)} />
+              <Input id='userName' placeholder={userName} name="userName" value={profile.newUserName} onChange={(ev)=>setNewUserName(ev.target.value)} />
+            </FormControl>     
+            <FormControl>
+              <FormLabel htmlFor="updatePassword">Password</FormLabel>
+              <Input data-testid="updatePassword" id="updatePassword" placeholder={password} name="password" value={profile.newPassword} onChange={(e)=>setPassword(e.target.value)} />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor='introduction'>Introduction</FormLabel>
-              <Input id='introduction' placeholder="Introduction" name="introduction" value={introduction} onChange={(ev)=>setIntroduction(ev.target.value)} />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="updatePassword">Profile Update Password</FormLabel>
-              <Input data-testid="updatePassword" id="updatePassword" placeholder="Password" name="password" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+              <Textarea id='introduction' placeholder={introduction} name="introduction" value={profile.newIntroduction} onChange={(ev)=>setIntroduction(ev.target.value)} />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button data-testid='updatebutton' colorScheme="blue" mr={3} value="update" name='action2' onClick={()=>handleUpdate('edit')}>
+            <Button data-testid='updatebutton' colorScheme="blue" mr={3} value="update" name='action2' onClick={()=>handleUpdate()}>
               Update
             </Button>
             <Button onClick={closeProfile}>Cancel</Button>
