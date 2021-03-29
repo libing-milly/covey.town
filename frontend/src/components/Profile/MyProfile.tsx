@@ -1,4 +1,5 @@
 import React, {useCallback, useState, useEffect} from 'react';
+import axios from 'axios';
 import {
     Avatar,
     Button,
@@ -26,23 +27,23 @@ import {
   import useMaybeVideo from '../../hooks/useMaybeVideo';
 
   const pictureOptions = [
-    {value:'https://bit.ly/code-beast', name:'code beast'},
-    {value:'https://bit.ly/sage-adebayo', name:'sage-adebayo'},
-    {value:'https://bit.ly/dan-abramov', name:'dan-abramov'}
+    'https://bit.ly/code-beast', 
+    'https://bit.ly/sage-adebayo', 
+    'https://bit.ly/dan-abramov',
 
 ];
 
   const MyProfile: React.FunctionComponent = () => {
+    // get this userId from log in state
+    const userId = '6060fa8018caf50004b8c205';
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
-    const [email, setEmail] = useState('1@email.com');
-    const {userName} = useCoveyAppState();
+    const [email, setEmail] = useState('');
     const [newUserName, setNewUserName] = useState('');
-    const [password, setPassword] = useState('12345');
-    const [introduction, setIntroduction] = useState('my intro');
-    const [picture, setPicture] = useState(pictureOptions[0]);
+    const [newPassword, setNewPassword] = useState('');
+    const [newIntroduction, setNewIntroduction] = useState('');
+    const [newPicture, setNewPicture] = useState('');
     const [loading, setLoading] = useState(false);
-    const [profile, setProfile] = useState({newUserName: '', newPassword: '', newIntroduction: '', newPicture: pictureOptions[0]});
 
     
 
@@ -59,19 +60,71 @@ import {
     
       const toast = useToast()
 
-    const handleUpdate = () => {
-        if(newUserName.length === 0)
-        toast({
+    const handleUpdate = async() => {
+        if(newUserName.length === 0) {
+          toast({
+            title: 'Unable to update profile',
+            description: 'Please enter a username',
+            status: 'error',
+          });
+          return;
+        }if(newPassword.length === 0) {
+          toast({
+            title: 'Unable to update profile',
+            description: 'Please enter a password',
+            status: 'error',
+          });
+          return;
+        }if(newPicture.length === 0) {
+          toast({
+            title: 'Unable to update profile',
+            description: 'Please choose a profile picture',
+            status: 'error',
+          });
+          return;
+        }
+        try{
+          
+          const json = {username: newUserName, password: newPassword, imageUrl: newPicture, selfIntro: newIntroduction};
+          await axios.put(`https://frozen-peak-16230.herokuapp.com/api/users/${userId}`, json);
+          
+          toast({
             title: 'Profile undated',
-            description: 'Your profile is successfully updated',
+            description: 'You have updated your profile',
             status: 'success',
           });
+          
+
+        }catch (err) {
+          toast({
+            title: 'Unable to connect to Profile Service',
+            description: err.toString(),
+            status: 'error'
+          });
+
+        }
+        
 
     }
 
-    function getProfile() {
+    const getProfile = async() => {
         setLoading(true);
-        setProfile({newUserName: userName, newPassword: password, newIntroduction: introduction, newPicture: picture});
+
+        try {
+          const res = await axios.get(`https://frozen-peak-16230.herokuapp.com/api/users/${userId}`);
+          setEmail(res.data.email);
+          setNewUserName(res.data.username);
+          setNewPassword(res.data.password);
+          setNewPicture(res.data.imageUrl);
+          setNewIntroduction(res.data.selfIntro);
+
+        } catch(err) {
+          toast({
+            title: 'Unable to connect to Profile Service',
+            description: err.toString(),
+            status: 'error'
+          });
+        }
         
       }
     
@@ -79,9 +132,6 @@ import {
         getProfile();
       }, []);
 
-      const changeProfilePic = () => {
-
-      }
 
     return <>
     <MenuItem data-testid='openMenuButton' onClick={openProfile}>
@@ -105,14 +155,14 @@ import {
                     <Avatar
                         borderRadius="full"
                         boxSize="150px"
-                        src={picture.value}
+                        src={newPicture}
                     />
                 </Box>
                 <Box>
-                    <Select value={picture.value} onChange={(ev)=>setPicture( {value: ev.target.value, name: ev.target.name})}>
-                        <option value={pictureOptions[0].value}>{pictureOptions[0].name}</option>
-                        <option value={pictureOptions[1].value}>{pictureOptions[1].name}</option>
-                        <option value={pictureOptions[2].value}>{pictureOptions[2].name}</option>
+                    <Select value={newPicture} onChange={(ev)=> setNewPicture( ev.target.value)}>
+                        <option value={pictureOptions[0]}>option 1</option>
+                        <option value={pictureOptions[1]}>option 2</option>
+                        <option value={pictureOptions[2]}>option 3</option>
                     </Select>
                 </Box>
                 
@@ -120,15 +170,15 @@ import {
                               
             <FormControl>
               <FormLabel htmlFor='userName'>User Name</FormLabel>
-              <Input id='userName' placeholder={userName} name="userName" value={profile.newUserName} onChange={(ev)=>setNewUserName(ev.target.value)} />
+              <Input id='userName' placeholder={newUserName} name="userName" value={newUserName} onChange={(ev)=>setNewUserName(ev.target.value)} />
             </FormControl>     
             <FormControl>
               <FormLabel htmlFor="updatePassword">Password</FormLabel>
-              <Input data-testid="updatePassword" id="updatePassword" placeholder={password} name="password" value={profile.newPassword} onChange={(e)=>setPassword(e.target.value)} />
+              <Input data-testid="updatePassword" id="updatePassword" placeholder={newPassword} name="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor='introduction'>Introduction</FormLabel>
-              <Textarea id='introduction' placeholder={introduction} name="introduction" value={profile.newIntroduction} onChange={(ev)=>setIntroduction(ev.target.value)} />
+              <Textarea id='introduction' placeholder={newIntroduction} name="introduction" value={newIntroduction} onChange={(ev)=>setNewIntroduction(ev.target.value)} />
             </FormControl>
           </ModalBody>
 

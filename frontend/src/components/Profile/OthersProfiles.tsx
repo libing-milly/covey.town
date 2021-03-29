@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 import {
     Button,
     Drawer,
@@ -9,7 +10,6 @@ import {
     DrawerHeader,
     VStack,
     Text,
-    Textarea,
     Avatar,
     Box,
     useDisclosure,
@@ -25,57 +25,74 @@ import {
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
+import useMaybeVideo from '../../hooks/useMaybeVideo';
 
-import Player from '../../classes/Player';
 
-const pictureOptions = [
-    {value:'https://bit.ly/code-beast', name:'code beast'},
-    {value:'https://bit.ly/sage-adebayo', name:'sage-adebayo'},
-    {value:'https://bit.ly/dan-abramov', name:'dan-abramov'}
 
-];
-const player1 = new Player('123', 'player1', {
-    x: 0,
-    y: 0,
-    rotation: "front",
-    moving: false
-  });
-  const player2 = new Player('234', 'player2', {
-    x: 0,
-    y: 0,
-    rotation: "front",
-    moving: false
-  });
-const testPlayers = [player1, player2];
+
+interface Profile {
+        id: string, 
+        username: string,  
+        selfIntro: string, 
+        imageUrl: string, 
+        roomId: string
+
+}
 
 const OthersProfile: React.FunctionComponent = () => {
-    // const {players} = useCoveyAppState();
-    const {isOpen, onOpen, onClose} = useDisclosure()
-    const players = testPlayers;
-    const profile = {userName: 'test user name',  introduction: 'test intro', picture: pictureOptions[0]};
-    // const [profile, setProfile] = useState({userName: '',  introduction: '', picture: pictureOptions[0]});
-    const [loading, setLoading] = useState(false);
-
-
-    function getProfiles() {
-        setLoading(true);
-        
-      }
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    // need to update roomId at video setup when join room and get roomId from state
+    const currentRoomId = '2324';
     
-      useEffect(() => {
+    const [profiles, setProfiles] = useState<Profile[]>([]);
+    const [loading, setLoading] = useState(false);
+    const video = useMaybeVideo();
+    const toast = useToast();
+
+   
+    const getProfiles = async() => {
+        setLoading(true);
+        try{
+            const res = await axios.get(`https://frozen-peak-16230.herokuapp.com/api/users/`);
+            setProfiles(res.data.filter((p : any) => p._id !== currentRoomId));
+            console.log(profiles);
+            
+        }
+        catch(err) {
+            toast({
+                title: 'Unable to get players list',
+                description: err.toString(),
+                status: 'error'
+              });
+        }
+        
+    }
+    
+    useEffect(() => {
         getProfiles();
-      }, []);
+    }, []);
+
+    const openPlayersList = useCallback(async()=>{
+        await getProfiles();
+        onOpen();
+        video?.pauseGame();
+      }, [onOpen, video]);
+    
+      const closePlayersList = useCallback(()=>{
+        onClose();
+        video?.unPauseGame();
+      }, [onClose, video]);
 
     return <>        
           
-          <MenuItem data-testid='openMenuButton' onClick={onOpen}>
+          <MenuItem data-testid='openMenuButton' onClick={openPlayersList}>
             <Typography variant="body1">Players Profile</Typography>
             </MenuItem>
             
             <Drawer
               isOpen={isOpen}
               placement="right"
-              onClose={onClose}
+              onClose={closePlayersList}
               size = 'xs'
             >
               <DrawerOverlay>
@@ -88,11 +105,11 @@ const OthersProfile: React.FunctionComponent = () => {
                     spacing={4}
                     align="stretch"
                     >
-                    {players?.map((player) => (
-                        <Popover key = {player.id}>
+                    {profiles?.map((p) => (
+                        <Popover key = {p.id}>
                             <PopoverTrigger>
                             <Button >
-                          {player.userName}
+                          {p.username}
                             </Button>
                             </PopoverTrigger>
                             <PopoverContent>
@@ -109,14 +126,14 @@ const OthersProfile: React.FunctionComponent = () => {
                                     <Avatar
                                         borderRadius="full"
                                         boxSize="150px"
-                                        src={profile.picture.value}
+                                        src={p.imageUrl}
                                     />
                                 </Box>
                                 <Box>
-                                    <Text fontSize="20px">user name: {profile.userName}</Text>
+                                    <Text fontSize="20px">user name: {p.username}</Text>
                                 </Box>
                                 <Box>
-                                    <Text> intro: {profile.introduction} </Text> 
+                                    <Text> intro: {p.selfIntro} </Text> 
                                 </Box>
                                 
                             </VStack>
@@ -131,9 +148,7 @@ const OthersProfile: React.FunctionComponent = () => {
       
                 </DrawerContent>
               </DrawerOverlay>
-            </Drawer>
-          
-      
+            </Drawer>    
       </>
     
 
