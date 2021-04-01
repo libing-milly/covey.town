@@ -1,18 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from "react-router-dom"
 import assert from "assert";
 import {
   Box,
   Button,
+  Center,
   Checkbox,
   Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
+  Spacer,
   Stack,
   Table,
   TableCaption,
   Tbody,
+  Text,
   Td,
   Th,
   Thead,
@@ -210,8 +214,22 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               </Table>
             </Box>
           </Box>
+          <Heading p="4" as="h2" size="lg">-or-</Heading>
+          <Flex  borderWidth="1px" borderRadius="lg">
+            <Box>
+            <Heading p="4" as="h2" size="lg">To keep your own account</Heading>
+            </Box>
+          <Spacer/>
+          <Center>
+          <Box >
+          <Text>
+            <Link to = "/login"> Sign in </Link>
+            </Text>
+            </Box>
+          </Center>
+          </Flex>
         </Stack>
-      </form>
+        </form>
     </>
   );
 }

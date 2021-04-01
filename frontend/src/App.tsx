@@ -2,7 +2,7 @@ import React, {
   Dispatch, SetStateAction, useCallback, useEffect, useMemo, useReducer, useState,
 } from 'react';
 import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter,Route } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -25,6 +25,7 @@ import { Callback } from './components/VideoCall/VideoFrontend/types';
 import Player, { ServerPlayer, UserLocation } from './classes/Player';
 import TownsServiceClient, { TownJoinResponse } from './classes/TownsServiceClient';
 import Video from './classes/Video/Video';
+import LoginFuc from './components/Login/LoginForm';
 
 type CoveyAppUpdate =
   | { action: 'doConnect'; data: { userName: string, townFriendlyName: string, townID: string,townIsPubliclyListed:boolean, sessionToken: string, myPlayerID: string, socket: Socket, players: Player[], emitMovement: (location: UserLocation) => void } }
@@ -266,6 +267,7 @@ export default function AppStateWrapper(): JSX.Element {
           </AppStateProvider>
         </MuiThemeProvider>
       </ChakraProvider>
+      <Route exact path="/login" component = {LoginFuc}/>
     </BrowserRouter>
   );
 }
