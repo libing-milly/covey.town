@@ -223,11 +223,11 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Spacer/>
           <Center>
           <Box >
-          <Text>
+          <Button>
             <BrowserRouter>
               <Link to = "/login"> Sign in </Link>
             </BrowserRouter>    
-            </Text>
+            </Button>
             </Box>
           </Center>
           </Flex>
@@ -240,11 +240,11 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Spacer/>
           <Center>
             <Box >
-            <Text>
+            <Button>
             <BrowserRouter>
               <Link to = "/register"> Sign up here </Link>
             </BrowserRouter>    
-            </Text>
+            </Button>
             </Box>
           </Center>
         </Flex>

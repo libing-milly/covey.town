@@ -268,8 +268,8 @@ export default function AppStateWrapper(): JSX.Element {
           </AppStateProvider>
         </MuiThemeProvider>
       </ChakraProvider>
-      <Route exact path="/register" component = {SignUpFuc}/>
       <Route exact path="/login" component = {LoginFuc}/>
+      <Route exact path="/register" component = {SignUpFuc}/>
     </BrowserRouter>
   );
 }
