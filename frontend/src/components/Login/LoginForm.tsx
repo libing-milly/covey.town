@@ -1,5 +1,4 @@
 import React, {useState}from 'react'
-import {withRouter} from 'react-router'
 import { useHistory } from "react-router-dom";
 import {
   ThemeProvider,
@@ -145,6 +144,6 @@ function LoginFuc():JSX.Element {
 }
 LoginFuc.defaultProps = {
 }
-export default withRouter(LoginFuc);
+export default LoginFuc;
 
 
