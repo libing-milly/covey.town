@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios';
 
+
 const VARIANT_COLOR = "teal";
 
 const LoginHeader = () => (
@@ -27,6 +28,7 @@ const LoginHeader = () => (
 
 
 function LoginForm(): JSX.Element {  
+  const [loggedInUserId, setLoggedInUserId] = useState(''); 
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false)
