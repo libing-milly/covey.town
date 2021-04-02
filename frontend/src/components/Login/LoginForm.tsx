@@ -130,7 +130,7 @@ const LoginArea = () =>
     </Flex>
   );
 
-function LoginFuc():JSX.Element {
+function LoginFunc():JSX.Element {
   return <>
     <ThemeProvider theme={theme}>
         <CSSReset />
@@ -138,8 +138,8 @@ function LoginFuc():JSX.Element {
     </ThemeProvider>
 </>
 }
-LoginFuc.defaultProps = {
+LoginFunc.defaultProps = {
 }
-export default LoginFuc;
+export default LoginFunc;
 
 
