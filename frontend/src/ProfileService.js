@@ -40,19 +40,8 @@ export default class ProfileService {
     return res;
   };
 
-  signUp = async (
-    userName,
-    email,
-    password,
-    question1,
-    answer1,
-    question2,
-    answer2,
-    question3,
-    answer3,
-  ) => {
+  signUp = async (email, password, question1, answer1, question2, answer2, question3, answer3) => {
     const res = await axios.post(`${userAPI}/register`, {
-      userName,
       email,
       password,
       question1,
@@ -63,13 +52,13 @@ export default class ProfileService {
       answer3,
     });
     this.currentUserId = res.data.user._id;
-    this.createProfile(userName);
+    this.createProfile();
     return res;
   };
 
-  createProfile = async userName => {
+  createProfile = async () => {
     await axios.post(`${profileAPI}/${this.currentUserId}`, {
-      username: userName,
+      username: '',
       imageUrl: '',
       selfIntro: '',
       roomId: '',
