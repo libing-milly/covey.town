@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   ThemeProvider,
   theme,
@@ -18,7 +19,7 @@ const VARIANT_COLOR = "teal";
 
 export default function SignUpFuc(): JSX.Element {
   const [formState, setFormState] = useState("idle");
-  const [userName, setUserName] = useState("");
+  // const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [question1, setQuestion1] = useState("");
@@ -28,12 +29,13 @@ export default function SignUpFuc(): JSX.Element {
   const [question3, setQuestion3] = useState("");
   const [answer3, setAnswer3] = useState("");
   const toast = useToast();
+  const history = useHistory();
 
   useEffect(() => {
     if (formState === "done") {
       setTimeout(() => {
         setFormState("idle");
-        setUserName("");
+        // setUserName("");
         setEmail("");
         setPassword("");
       }, 3000);
@@ -48,18 +50,7 @@ export default function SignUpFuc(): JSX.Element {
 
       const response = await axios.post(
         `https://secure-anchorage-87188.herokuapp.com/api/users/register`,
-        {
-          userName: userName,
-          email: email,
-          password: password,
-          question1: question1,
-          answer1: answer1,
-          question2: question2,
-          answer2: answer2,
-          question3: question3,
-          answer3: answer3
-        }
-      ); // 需要讨论
+        { email, password, question1, answer1, question2, answer2, question3, answer3}); // 需要讨论 userName
 
       if (response.status >= 400) {
         setFormState("error");
@@ -69,6 +60,7 @@ export default function SignUpFuc(): JSX.Element {
           description: errorMessage.toString(),
           status: "error"
         });
+        history.push("/");
       } else {
         toast({
           title: "Congratulations!",
@@ -85,6 +77,20 @@ export default function SignUpFuc(): JSX.Element {
       });
     }
   };
+  /*
+  
+  <FormControl mt={8} isRequired>
+    <FormLabel htmlFor="name">User Name</FormLabel>
+    <Input
+      size="md"
+      autoFocus
+      name="name"
+      placeholder="Enter user name"
+      value={userName}
+      onChange={(event) => setUserName(event.target.value)}
+    />
+  </FormControl>
+  */
 
   const QuestionArea = () => (
     <>
@@ -173,20 +179,7 @@ export default function SignUpFuc(): JSX.Element {
               <Box textAlign="center">
                 <Heading>Sign Up Your Account</Heading>
               </Box>
-
               <form>
-                <FormControl mt={8} isRequired>
-                  <FormLabel htmlFor="name">User Name</FormLabel>
-                  <Input
-                    size="md"
-                    autoFocus
-                    name="name"
-                    placeholder="Enter user name"
-                    value={userName}
-                    onChange={(event) => setUserName(event.target.value)}
-                  />
-                </FormControl>
-
                 <FormControl mt={4} isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
