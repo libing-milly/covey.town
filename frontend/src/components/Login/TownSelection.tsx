@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from "react-router-dom"
+import { BrowserRouter, Link } from "react-router-dom"
 import assert from "assert";
 import {
   Box,
@@ -223,7 +223,9 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Center>
           <Box >
           <Text>
-            <Link to = "/login"> Sign in </Link>
+            <BrowserRouter>
+              <Link to = "/login"> Sign in </Link>
+            </BrowserRouter>    
             </Text>
             </Box>
           </Center>

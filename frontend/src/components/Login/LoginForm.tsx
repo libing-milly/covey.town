@@ -26,15 +26,14 @@ const LoginHeader = () => (
   );
 
 
-function LoginForm(): JSX.Element {
-
+function LoginForm(): JSX.Element {  
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const toast = useToast();
   const history = useHistory();
 
-  
+ 
 
 
   const authHandler = async() => {
@@ -56,9 +55,11 @@ function LoginForm(): JSX.Element {
     }
     try {
       setLoading(true);
-      await axios.post(`https://secure-anchorage-87188.herokuapp.com/api/users/login`,
+      const res = await axios.post(`https://secure-anchorage-87188.herokuapp.com/api/users/login`,
       {email: userEmail, password: userPassword });
-        
+      setLoggedInUserId(res.data.users._id);
+
+      
       toast({
         title: 'You logged in',
         description: 'You have logged in',
@@ -107,6 +108,7 @@ function LoginForm(): JSX.Element {
         </Button>
       </form>
     </Box>
+    
     </>
   );
 }
