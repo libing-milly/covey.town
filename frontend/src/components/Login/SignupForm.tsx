@@ -12,7 +12,7 @@ import {
   Button,
   useToast
 } from "@chakra-ui/react";
-import axios from "axios";
+import ProfileService from "../../ProfileService";
 
 const VARIANT_COLOR = "teal";
 
@@ -46,20 +46,11 @@ export default function SignUpFuc(): JSX.Element {
     try {
       setFormState("loading");
 
-      const response = await axios.post(
-        `https://secure-anchorage-87188.herokuapp.com/api/users/register`,
-        {
-          userName: userName,
-          email: email,
-          password: password,
-          question1: question1,
-          answer1: answer1,
-          question2: question2,
-          answer2: answer2,
-          question3: question3,
-          answer3: answer3
-        }
-      ); // 需要讨论
+      const response = await ProfileService.getInstance().signUp(
+        userName,email,password,question1,answer1,
+        question2,answer2,question3,answer3
+      );
+      // 需要讨论
 
       if (response.status >= 400) {
         setFormState("error");

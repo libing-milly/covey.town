@@ -41,6 +41,8 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const [currentPublicTowns, setCurrentPublicTowns] = useState<CoveyTownInfo[]>();
   const { connect } = useVideoContext();
   const { apiClient } = useCoveyAppState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const toast = useToast();
 
   const updateTownListings = useCallback(() => {
@@ -223,7 +225,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Spacer/>
           <Center>
           <Box >
-          <Button>
+          <Button onClick = { () => {setIsLoggedIn(true)}}>
             <BrowserRouter>
               <Link to = "/login"> Sign In </Link>
             </BrowserRouter>    

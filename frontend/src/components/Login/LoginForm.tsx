@@ -15,7 +15,7 @@ import {
 
 } from '@chakra-ui/react'
 import axios from 'axios';
-
+import ProfileService from '../../ProfileService';
 
 const VARIANT_COLOR = "teal";
 
@@ -56,10 +56,12 @@ function LoginForm(): JSX.Element {
     }
     try {
       setLoading(true);
+      const res = await ProfileService.getInstance().login(userEmail, userPassword);
+      /*
       const res = await axios.post(`https://secure-anchorage-87188.herokuapp.com/api/users/login`,
       {email: userEmail, password: userPassword });
-      setLoggedInUserId(res.data.users._id);
-
+      */
+      setLoggedInUserId(res.data.user._id);
       
       toast({
         title: 'You logged in',

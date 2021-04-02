@@ -25,6 +25,7 @@ import {
   import Typography from '@material-ui/core/Typography';
   import useCoveyAppState from '../../hooks/useCoveyAppState';
   import useMaybeVideo from '../../hooks/useMaybeVideo';
+  import ProfileService from '../../ProfileService';
 
   const pictureOptions = [
     'https://bit.ly/code-beast', 
@@ -35,7 +36,7 @@ import {
 
   const MyProfile: React.FunctionComponent = () => {
     // get this userId from log in state
-    const userId = '6060fa8018caf50004b8c205';
+    const [currentUserId, setCurrentUserId] = useState('');
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
     const [email, setEmail] = useState('');
@@ -84,10 +85,8 @@ import {
           return;
         }
         try{
-          
           const json = {username: newUserName, password: newPassword, imageUrl: newPicture, selfIntro: newIntroduction};
-          await axios.put(`https://frozen-peak-16230.herokuapp.com/api/users/${userId}`, json);
-          
+          await ProfileService.getInstance().updateProfile(json);
           toast({
             title: 'Profile undated',
             description: 'You have updated your profile',
@@ -111,7 +110,11 @@ import {
         setLoading(true);
 
         try {
+          /*
+          setCurrentUserId(ProfileService.getInstance().getCurrentUserId());
           const res = await axios.get(`https://frozen-peak-16230.herokuapp.com/api/users/${userId}`);
+          */
+         const res = await ProfileService.getInstance().getCurrentUserProfile();
           setEmail(res.data.email);
           setNewUserName(res.data.username);
           setNewPassword(res.data.password);

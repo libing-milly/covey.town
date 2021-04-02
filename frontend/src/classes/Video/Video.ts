@@ -1,5 +1,6 @@
 import DebugLogger from '../DebugLogger';
 import TownsServiceClient, { TownJoinResponse } from '../TownsServiceClient';
+import ProfileService from '../../ProfileService';
 
 export default class Video {
   private static video: Video | null = null;
@@ -65,6 +66,7 @@ export default class Video {
             this.videoToken = result.providerVideoToken;
             this._townFriendlyName = result.friendlyName;
             this._isPubliclyListed = result.isPubliclyListed;
+            ProfileService.getInstance().updateRoomId(this._coveyTownID);
             resolve(result);
           })
           .catch((err) => {
