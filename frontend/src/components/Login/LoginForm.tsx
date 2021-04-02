@@ -1,4 +1,4 @@
-import React, {useState}from 'react'
+import React, { useState}from 'react'
 import { useHistory } from "react-router-dom";
 import {
   ThemeProvider,
@@ -7,14 +7,15 @@ import {
   Box,
   Flex,
   Heading,
-
   FormControl,
   FormLabel,
   Input,
   Button,
   useToast,
+
 } from '@chakra-ui/react'
 import axios from 'axios';
+
 
 const VARIANT_COLOR = "teal";
 
@@ -25,15 +26,15 @@ const LoginHeader = () => (
   );
 
 
-function LoginForm(): JSX.Element {
-
+function LoginForm(): JSX.Element {  
+  const [loggedInUserId, setLoggedInUserId] = useState(''); 
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const toast = useToast();
   const history = useHistory();
 
-  
+
 
 
   const authHandler = async() => {
@@ -55,9 +56,11 @@ function LoginForm(): JSX.Element {
     }
     try {
       setLoading(true);
-      await axios.post(`https://secure-anchorage-87188.herokuapp.com/api/users/login`,
+      const res = await axios.post(`https://secure-anchorage-87188.herokuapp.com/api/users/login`,
       {email: userEmail, password: userPassword });
-        
+      setLoggedInUserId(res.data.users._id);
+
+      
       toast({
         title: 'You logged in',
         description: 'You have logged in',
@@ -77,7 +80,9 @@ function LoginForm(): JSX.Element {
       
     }
   }
+  
 
+  
   return (
     <>
     <Box my={8} textAlign="left">
@@ -106,9 +111,12 @@ function LoginForm(): JSX.Element {
         </Button>
       </form>
     </Box>
+    
     </>
   );
 }
+  
+
 
 const LoginArea = () => 
   (
@@ -130,7 +138,9 @@ const LoginArea = () =>
     </Flex>
   );
 
-function LoginFunc():JSX.Element {
+
+
+function SignIn():JSX.Element {
   return <>
     <ThemeProvider theme={theme}>
         <CSSReset />
@@ -138,8 +148,8 @@ function LoginFunc():JSX.Element {
     </ThemeProvider>
 </>
 }
-LoginFunc.defaultProps = {
+SignIn.defaultProps = {
 }
-export default LoginFunc;
+export default SignIn;
 
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from "react-router-dom"
+import { BrowserRouter, Link } from "react-router-dom"
 import assert from "assert";
 import {
   Box,
@@ -27,6 +27,7 @@ import useVideoContext from '../VideoCall/VideoFrontend/hooks/useVideoContext/us
 import Video from '../../classes/Video/Video';
 import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClient';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
+import SignUpForm from './SignupForm';
 
 interface TownSelectionProps {
   doLogin: (initData: TownJoinResponse) => Promise<boolean>
@@ -222,12 +223,32 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Spacer/>
           <Center>
           <Box >
-          <Text>
-            <Link to = "/login"> Sign in </Link>
-            </Text>
+          <Button>
+            <BrowserRouter>
+              <Link to = "/login"> Sign In </Link>
+            </BrowserRouter>    
+            </Button>
             </Box>
           </Center>
           </Flex>
+
+          <Heading p="4" as="h2" size="lg">-or-</Heading>
+          <Flex  borderWidth="1px" borderRadius="lg">
+            <Box>
+            <Heading p="4" as="h2" size="lg">To Sign Up your own account</Heading>
+            </Box>
+          <Spacer/>
+          <Center>
+            <Box >
+            <Button>
+            <BrowserRouter>
+              <Link to = "/register"> Sign up here </Link>
+            </BrowserRouter>    
+            </Button>
+            </Box>
+          </Center>
+        </Flex>
+
         </Stack>
         </form>
     </>
