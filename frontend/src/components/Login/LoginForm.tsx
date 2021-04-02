@@ -1,4 +1,4 @@
-import React, {useState}from 'react'
+import React, { useState}from 'react'
 import { useHistory } from "react-router-dom";
 import {
   ThemeProvider,
@@ -7,12 +7,12 @@ import {
   Box,
   Flex,
   Heading,
-
   FormControl,
   FormLabel,
   Input,
   Button,
   useToast,
+
 } from '@chakra-ui/react'
 import axios from 'axios';
 
@@ -34,7 +34,7 @@ function LoginForm(): JSX.Element {
   const toast = useToast();
   const history = useHistory();
 
- 
+
 
 
   const authHandler = async() => {
@@ -80,7 +80,9 @@ function LoginForm(): JSX.Element {
       
     }
   }
+  
 
+  
   return (
     <>
     <Box my={8} textAlign="left">
@@ -113,6 +115,8 @@ function LoginForm(): JSX.Element {
     </>
   );
 }
+  
+
 
 const LoginArea = () => 
   (
@@ -133,6 +137,7 @@ const LoginArea = () =>
       </Box>
     </Flex>
   );
+
 
 function LoginFuc():JSX.Element {
   return <>

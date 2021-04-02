@@ -26,6 +26,7 @@ import Player, { ServerPlayer, UserLocation } from './classes/Player';
 import TownsServiceClient, { TownJoinResponse } from './classes/TownsServiceClient';
 import Video from './classes/Video/Video';
 import LoginFuc from './components/Login/LoginForm';
+import SignUpFuc from './components/Login/SignupForm';
 
 type CoveyAppUpdate =
   | { action: 'doConnect'; data: { userName: string, townFriendlyName: string, townID: string,townIsPubliclyListed:boolean, sessionToken: string, myPlayerID: string, socket: Socket, players: Player[], emitMovement: (location: UserLocation) => void } }
@@ -267,6 +268,7 @@ export default function AppStateWrapper(): JSX.Element {
           </AppStateProvider>
         </MuiThemeProvider>
       </ChakraProvider>
+      <Route exact path="/register" component = {SignUpFuc}/>
       <Route exact path="/login" component = {LoginFuc}/>
     </BrowserRouter>
   );

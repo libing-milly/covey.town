@@ -27,6 +27,7 @@ import useVideoContext from '../VideoCall/VideoFrontend/hooks/useVideoContext/us
 import Video from '../../classes/Video/Video';
 import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClient';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
+import SignUpForm from './SignupForm';
 
 interface TownSelectionProps {
   doLogin: (initData: TownJoinResponse) => Promise<boolean>
@@ -239,11 +240,11 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Spacer/>
           <Center>
             <Box >
-              <Button>
-                <BrowserRouter>
-                  <Link to = "/register"> Sign Up Here </Link>
-                </BrowserRouter>    
-              </Button>
+            <Text>
+            <BrowserRouter>
+              <Link to = "/register"> Sign up here </Link>
+            </BrowserRouter>    
+            </Text>
             </Box>
           </Center>
         </Flex>
