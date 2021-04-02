@@ -230,6 +230,24 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
             </Box>
           </Center>
           </Flex>
+
+          <Heading p="4" as="h2" size="lg">-or-</Heading>
+          <Flex  borderWidth="1px" borderRadius="lg">
+            <Box>
+            <Heading p="4" as="h2" size="lg">To Sign Up your own account</Heading>
+            </Box>
+          <Spacer/>
+          <Center>
+            <Box >
+              <Button>
+                <BrowserRouter>
+                  <Link to = "/register"> Sign Up Here </Link>
+                </BrowserRouter>    
+              </Button>
+            </Box>
+          </Center>
+        </Flex>
+
         </Stack>
         </form>
     </>
