@@ -25,7 +25,7 @@ import {
   import Typography from '@material-ui/core/Typography';
   import useCoveyAppState from '../../hooks/useCoveyAppState';
   import useMaybeVideo from '../../hooks/useMaybeVideo';
-  import ProfileService from '../../ProfileService';
+  import ProfileService from '../../classes/Services/ProfileService';
 
   const pictureOptions = [
     'https://bit.ly/code-beast', 

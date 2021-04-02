@@ -13,7 +13,7 @@ import {
   Button,
   useToast
 } from "@chakra-ui/react";
-import ProfileService from "../../ProfileService";
+import ProfileService from "../../classes/Services/ProfileService";
 
 const VARIANT_COLOR = "teal";
 
