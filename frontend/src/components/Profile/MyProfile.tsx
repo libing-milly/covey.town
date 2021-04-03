@@ -25,7 +25,7 @@ import {
   import Typography from '@material-ui/core/Typography';
   import useCoveyAppState from '../../hooks/useCoveyAppState';
   import useMaybeVideo from '../../hooks/useMaybeVideo';
-  import ProfileService from '../../classes/Services/ProfileService';
+  import ProfileService from '../../classes/Services/ProfileServices';
 
   const pictureOptions = [
     'https://bit.ly/code-beast', 
@@ -36,12 +36,10 @@ import {
 
   const MyProfile: React.FunctionComponent = () => {
     // get this userId from log in state
-    const [currentUserId, setCurrentUserId] = useState('');
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
     const [email, setEmail] = useState('');
     const [newUserName, setNewUserName] = useState('');
-    const [newPassword, setNewPassword] = useState('');
     const [newIntroduction, setNewIntroduction] = useState('');
     const [newPicture, setNewPicture] = useState('');
     const [loading, setLoading] = useState(false);
@@ -69,13 +67,6 @@ import {
             status: 'error',
           });
           return;
-        }if(newPassword.length === 0) {
-          toast({
-            title: 'Unable to update profile',
-            description: 'Please enter a password',
-            status: 'error',
-          });
-          return;
         }if(newPicture.length === 0) {
           toast({
             title: 'Unable to update profile',
@@ -85,8 +76,10 @@ import {
           return;
         }
         try{
-          const json = {username: newUserName, password: newPassword, imageUrl: newPicture, selfIntro: newIntroduction};
-          await ProfileService.getInstance().updateProfile(json);
+          // const json = {username: newUserName, password: newPassword, imageUrl: newPicture, selfIntro: newIntroduction};
+          await ProfileService.getInstance().updateProfile(
+            newUserName, newPicture, newIntroduction
+          );
           toast({
             title: 'Profile undated',
             description: 'You have updated your profile',
@@ -117,7 +110,6 @@ import {
          const res = await ProfileService.getInstance().getCurrentUserProfile();
           setEmail(res.data.email);
           setNewUserName(res.data.username);
-          setNewPassword(res.data.password);
           setNewPicture(res.data.imageUrl);
           setNewIntroduction(res.data.selfIntro);
 
@@ -175,10 +167,6 @@ import {
               <FormLabel htmlFor='userName'>User Name</FormLabel>
               <Input id='userName' placeholder={newUserName} name="userName" value={newUserName} onChange={(ev)=>setNewUserName(ev.target.value)} />
             </FormControl>     
-            <FormControl>
-              <FormLabel htmlFor="updatePassword">Password</FormLabel>
-              <Input data-testid="updatePassword" id="updatePassword" placeholder={newPassword} name="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} />
-            </FormControl>
             <FormControl>
               <FormLabel htmlFor='introduction'>Introduction</FormLabel>
               <Textarea id='introduction' placeholder={newIntroduction} name="introduction" value={newIntroduction} onChange={(ev)=>setNewIntroduction(ev.target.value)} />

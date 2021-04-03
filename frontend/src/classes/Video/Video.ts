@@ -1,6 +1,6 @@
 import DebugLogger from '../DebugLogger';
 import TownsServiceClient, { TownJoinResponse } from '../TownsServiceClient';
-import ProfileService from '../Services/ProfileService';
+import ProfileService from '../Services/ProfileServices';
 
 export default class Video {
   private static video: Video | null = null;
@@ -61,12 +61,12 @@ export default class Video {
           coveyTownID: this._coveyTownID,
           userName: this._userName,
         })
-          .then((result) => {
+          .then(async(result) => {
             this.sessionToken = result.coveySessionToken;
             this.videoToken = result.providerVideoToken;
             this._townFriendlyName = result.friendlyName;
             this._isPubliclyListed = result.isPubliclyListed;
-            ProfileService.getInstance().updateRoomId(this._coveyTownID);
+            await ProfileService.getInstance().updateRoomId(this._coveyTownID);
             resolve(result);
           })
           .catch((err) => {

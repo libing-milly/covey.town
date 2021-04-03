@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
 import {
     Button,
     Drawer,
@@ -26,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
 import useMaybeVideo from '../../hooks/useMaybeVideo';
-
+import ProfileService from '../../classes/Services/ProfileServices';
 
 
 
@@ -41,8 +40,8 @@ interface Profile {
 
 const OthersProfile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    // need to update roomId at video setup when join room and get roomId from state
-    const currentRoomId = '2324';
+    const { currentTownID } = useCoveyAppState();
+    // const currentRoomId = ;
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [loading, setLoading] = useState(false);
@@ -53,9 +52,10 @@ const OthersProfile: React.FunctionComponent = () => {
     const getProfiles = async() => {
         setLoading(true);
         try{
-            const res = await axios.get(`https://frozen-peak-16230.herokuapp.com/api/users/`);
-            setProfiles(res.data.filter((p : any) => p._id !== currentRoomId));
-            console.log(profiles);
+            const res = await ProfileService.getInstance().getProfiles();
+            console.log(res);
+            setProfiles(res.data.profiles.filter(
+              (p : any) => p.roomId === currentTownID));
             
         }
         catch(err) {

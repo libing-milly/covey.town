@@ -15,7 +15,7 @@ import {
 
 } from '@chakra-ui/react'
 import axios from 'axios';
-import ProfileService from '../../classes/Services/ProfileService';
+import ProfileService from '../../classes/Services/ProfileServices';
 
 const VARIANT_COLOR = "teal";
 
