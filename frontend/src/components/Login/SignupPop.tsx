@@ -51,7 +51,7 @@ export default function SignupPop(): JSX.Element {
     if (formState === "done") {
         setTimeout(() => {
         setFormState("idle");
-        // setUserName("");
+        setUserName("");
         setEmail("");
         setPassword("");
         }, 3000);

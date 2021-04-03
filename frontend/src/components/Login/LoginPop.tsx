@@ -22,7 +22,6 @@ import {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [userEmail, setUserEmail] = useState('')
     const [userPassword, setUserPassword] = useState('')
-    const [loading, setLoading] = useState(false)
     const toast = useToast();
 
 
@@ -60,7 +59,6 @@ import {
             return;
         }
         try {
-          setLoading(true);
           await ProfileService.getInstance().login(userName, userEmail, userPassword);
           toast({
             title: 'You have logged in',
@@ -70,7 +68,6 @@ import {
           closeLogin();  
     
         } catch (err){
-          setLoading(false);
           toast({
             title: 'Unable to login',
             description: 'Please enter a valid email address or password',

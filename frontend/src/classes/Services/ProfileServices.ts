@@ -23,6 +23,11 @@ router.get('/:uid', controller.getUserById);
 const profileAPI = 'https://secure-anchorage-87188.herokuapp.com/api/profiles';
 const userAPI = 'https://secure-anchorage-87188.herokuapp.com/api/users';
 
+/*
+type ResponseType = {
+  res: AxiosResponse<string>
+}
+*/
 
 
 
@@ -44,27 +49,29 @@ export default class ProfileService {
     return this.myInstance;
   }
 
-  getUserName = () => this.currentUserName;
+  getUserName () : string { return this.currentUserName;}
 
-  setUserName = (userName : string) => {
+  setUserName (userName : string) : void {
     this.currentUserName = userName;
   }
 
-  getLoginStatus = () => this.isLoggedIn;
+  getLoginStatus () : boolean { return this.isLoggedIn; }
 
-  setLoginStatus = (loggedIn : boolean) => {
+  setLoginStatus (loggedIn : boolean) : void {
     this.isLoggedIn = loggedIn;
   }
 
-  login = async (userName : string, userEmail : string, userPassword : string) => {
+  async login (userName : string, userEmail : string, userPassword : string) : Promise<void> {
     const res = await axios.post(`${userAPI}/login`, { email: userEmail, password: userPassword });
     this.currentUserId = res.data.user._id;
     this.setUserName(userName);
     this.setLoginStatus(true);
   };
 
-  signUp = async (userName: string, email : string, password : string, question1 : string, 
-    answer1 : string, question2 : string, answer2 : string, question3 : string, answer3 : string) => {
+  signUp = async(userName: string, email : string, password : string, 
+    question1 : string, answer1 : string, 
+    question2 : string, answer2 : string, 
+    question3 : string, answer3 : string) => {
     const res = await axios.post(`${userAPI}/register`, {
       email,
       password,
@@ -81,31 +88,31 @@ export default class ProfileService {
     return res;
   };
 
-  createProfile = async () => {
+  async createProfile () : Promise<void> {
     const res = await axios.post(`${profileAPI}/${this.currentUserId}/profile`, {
-      username: 'default',
-      imageUrl: 'default',
-      selfIntro: 'default',
-      roomId: 'default',
+      username: this.currentUserName,
+      imageUrl: 'choose a profile picture',
+      selfIntro: 'enter your self introduction',
+      roomId: '',
     });
     this.currentProfileId = res.data.profile._id;
   };
 
-  getCurrentUserId = () => this.currentUserId;
+  getCurrentUserId () : string { return this.currentUserId; }
 
-  getCurrentUserProfile = async () => {
+  getCurrentUserProfile = async() => {
     const res = await axios.get(`${profileAPI}/${this.currentUserId}/profile`);
     this.currentProfileId = res.data._id;
     return res;
   };
 
-  updateProfile = async (username: string, imageUrl: string, selfIntro: string) => {
+  async updateProfile (username: string, imageUrl: string, selfIntro: string) : Promise<void> {
     await axios.put(`${profileAPI}/${this.currentProfileId}`, 
     {username, imageUrl, selfIntro});
   };
 
   // also need to clear room id when user disconnect
-  updateRoomId = async (roomId : string) => {
+  async updateRoomId (roomId : string) : Promise<void> {
     if(this.isLoggedIn){
       await this.getCurrentUserProfile();
       await axios.put(`${profileAPI}/${this.currentProfileId}`, { roomId }); 
@@ -114,11 +121,12 @@ export default class ProfileService {
 
   getProfiles = async() => {
     const res = await axios.get(profileAPI);
+    this.isLoggedIn = true;
     return res;
     
   }
 
-  logOut = () => {
+  logOut () : void {
     this.currentUserId = '';
     this.currentProfileId = '';
     this.currentUserName = '';

@@ -186,7 +186,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
 
             <FormControl p="4">
               <LoginPop />
-              <Button ml={4} mr={8} onClick={logOut}>Log Out</Button>
+              <Button ml={4} mr={8} disabled={!isLoggedIn} onClick={logOut}>Log Out</Button>
               <SignupPop />
             </FormControl>
           </Box>
