@@ -43,6 +43,7 @@ import {
     const [newIntroduction, setNewIntroduction] = useState('');
     const [newPicture, setNewPicture] = useState('');
     const [loading, setLoading] = useState(false);
+    const isLoggedIn = ProfileService.getInstance().getLoginStatus();
 
     
 
@@ -129,7 +130,7 @@ import {
 
 
     return <>
-    <MenuItem data-testid='openMenuButton' onClick={openProfile}>
+    <MenuItem data-testid='openMenuButton' onClick={openProfile} disabled={!isLoggedIn}>
       <Typography variant="body1">Edit Profile</Typography>
     </MenuItem>
     <Modal isOpen={isOpen} onClose={closeProfile}>

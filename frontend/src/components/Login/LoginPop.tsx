@@ -75,6 +75,7 @@ import {
           setLoading(true);
           await ProfileService.getInstance().login(userEmail, userPassword);
           ProfileService.getInstance().setUserName(userName);
+          ProfileService.getInstance().serLoginStatus(true);
           toast({
             title: 'You have logged in',
             description: 'You have logged in',
@@ -95,7 +96,7 @@ import {
     
     
     return<>
-    <Button onClick={openLogin}>
+    <Button onClick={openLogin} mr = {4}>
       Log in
     </Button>
     <Modal isOpen={isOpen} onClose={closeLogin}>

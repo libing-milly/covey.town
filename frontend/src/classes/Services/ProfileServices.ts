@@ -35,6 +35,8 @@ export default class ProfileService {
 
   private currentUserName = '';
 
+  private isLoggedIn = false;
+
   static getInstance() : ProfileService {
     if (ProfileService.myInstance == null) {
       ProfileService.myInstance = new ProfileService();
@@ -46,7 +48,12 @@ export default class ProfileService {
 
   setUserName = (userName : string) => {
     this.currentUserName = userName;
-    console.log(userName);
+  }
+
+  getLoginStatus = () => this.isLoggedIn;
+
+  serLoginStatus = (loggedIn : boolean) => {
+    this.isLoggedIn = loggedIn;
   }
 
   login = async (userEmail : string, userPassword : string) => {
@@ -110,5 +117,7 @@ export default class ProfileService {
   logOut = () => {
     this.currentUserId = '';
     this.currentProfileId = '';
+    this.currentUserName = '';
+    this.isLoggedIn = false;
   };
 }

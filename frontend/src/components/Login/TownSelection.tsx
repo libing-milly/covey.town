@@ -147,11 +147,20 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
     }
   };
 
+  const logOut = () => {
+    ProfileServices.getInstance().logOut();
+    toast({
+      title: 'Log out',
+      description: "You have logged out",
+      status: 'success'
+    })
+  }
+
   return (
     <>
       <form>
         <Stack>
-          {/*
+          
           <Box p="4" borderWidth="1px" borderRadius="lg">
             <Heading as="h2" size="lg">Select a username</Heading>
             <FormControl>
@@ -162,11 +171,12 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               />
             </FormControl>
           </Box>
-        */}
+        
           <Box p="4" borderWidth="1px" borderRadius="lg">
-            <Heading as="h2" size="lg">Log in</Heading>
+            <Heading as="h2" size="lg">Already has an account?</Heading>
             <FormControl>
               <LoginPop />
+              <Button ml={4} onClick={logOut}>Log Out</Button>
             </FormControl>
           </Box>
           <Box borderWidth="1px" borderRadius="lg">
