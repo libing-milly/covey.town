@@ -1,13 +1,9 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
-    Avatar,
     Button,
-    Textarea,
-    Text,
     FormControl,
     FormLabel,
     Input,
-    Select,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -17,16 +13,8 @@ import {
     ModalOverlay,
     useDisclosure,
     useToast,
-    VStack,
-    Box,
   } from '@chakra-ui/react';
-  import MenuItem from '@material-ui/core/MenuItem';
-  import Typography from '@material-ui/core/Typography';
-  import useCoveyAppState from '../../hooks/useCoveyAppState';
-  import useMaybeVideo from '../../hooks/useMaybeVideo';
   import ProfileService from '../../classes/Services/ProfileServices';
-  import Video from '../../classes/Video/Video';
-
 
 
   const LoginPop: React.FunctionComponent = () => {
@@ -73,9 +61,7 @@ import {
         }
         try {
           setLoading(true);
-          await ProfileService.getInstance().login(userEmail, userPassword);
-          ProfileService.getInstance().setUserName(userName);
-          ProfileService.getInstance().serLoginStatus(true);
+          await ProfileService.getInstance().login(userName, userEmail, userPassword);
           toast({
             title: 'You have logged in',
             description: 'You have logged in',

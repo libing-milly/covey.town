@@ -52,17 +52,18 @@ export default class ProfileService {
 
   getLoginStatus = () => this.isLoggedIn;
 
-  serLoginStatus = (loggedIn : boolean) => {
+  setLoginStatus = (loggedIn : boolean) => {
     this.isLoggedIn = loggedIn;
   }
 
-  login = async (userEmail : string, userPassword : string) => {
+  login = async (userName : string, userEmail : string, userPassword : string) => {
     const res = await axios.post(`${userAPI}/login`, { email: userEmail, password: userPassword });
     this.currentUserId = res.data.user._id;
-    console.log(res);
+    this.setUserName(userName);
+    this.setLoginStatus(true);
   };
 
-  signUp = async (email : string, password : string, question1 : string, 
+  signUp = async (userName: string, email : string, password : string, question1 : string, 
     answer1 : string, question2 : string, answer2 : string, question3 : string, answer3 : string) => {
     const res = await axios.post(`${userAPI}/register`, {
       email,
@@ -76,6 +77,7 @@ export default class ProfileService {
     });
     this.currentUserId = res.data.user._id;
     await this.createProfile();
+    await this.login(userName, email, password);
     return res;
   };
 

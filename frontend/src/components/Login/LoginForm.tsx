@@ -55,7 +55,7 @@ function LoginForm(): JSX.Element {
     }
     try {
       setLoading(true);
-      await ProfileService.getInstance().login(userEmail, userPassword);      
+      await ProfileService.getInstance().login("", userEmail, userPassword);      
       toast({
         title: 'You have logged in',
         description: 'You have logged in',

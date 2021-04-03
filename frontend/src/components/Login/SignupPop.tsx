@@ -23,6 +23,7 @@ import ProfileService from '../../classes/Services/ProfileServices';
 const VARIANT_COLOR = "teal";
 
 export default function SignupPop(): JSX.Element {
+    const [userName, setUserName] = useState("");
     const [formState, setFormState] = useState("idle");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -63,7 +64,7 @@ export default function SignupPop(): JSX.Element {
         try {
             setFormState("loading");
             const response = await ProfileService.getInstance().signUp(
-            email, password, question1, answer1, question2, answer2, question3, answer3);
+            userName, email, password, question1, answer1, question2, answer2, question3, answer3);
 
             if (response.status >= 400) {
             setFormState("error");
@@ -76,11 +77,12 @@ export default function SignupPop(): JSX.Element {
             } else {
             toast({
                 title: "Congratulations!",
-                description: "Sign Up Successfully!",
+                description: "Sign Up Successfully! You have been logged in",
                 status: "success"
             });
-            setFormState("done");
-            closeSignUp(); 
+            setFormState("done"); 
+            closeSignUp();
+
             }
         } catch (err) {
             toast({
@@ -168,6 +170,15 @@ export default function SignupPop(): JSX.Element {
 
         <form>
             <ModalBody pb={6}>
+                <FormControl isRequired>
+                    <FormLabel>User Name</FormLabel>
+                    <Input
+                    size="md"
+                    placeholder="Your user name"
+                    value={userName}
+                    onChange={(event) => setUserName(event.target.value)}
+                    />
+                </FormControl>
                 <FormControl isRequired>
                     <FormLabel>Email address</FormLabel>
                     <Input

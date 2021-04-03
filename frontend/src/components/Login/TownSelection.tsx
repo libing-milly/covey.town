@@ -72,12 +72,11 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
     try {
       if(isLoggedIn) {
         setUserName(ProfileServices.getInstance().getUserName());
-        console.log(userName);
       }
       if ((!userName || userName.length === 0) && !isLoggedIn) {
         toast({
           title: 'Unable to join town',
-          description: 'Please enter a user name',
+          description: 'Please select a username',
           status: 'error',
         });
         return;
@@ -114,7 +113,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
     if ((!userName || userName.length === 0) && !isLoggedIn) {
       toast({
         title: 'Unable to create town',
-        description: 'Please enter a user name',
+        description: 'Please select a username before creating a town',
         status: 'error',
       });
       return;
@@ -175,7 +174,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
             <Heading as="h2" size="lg">Select a username</Heading>
             <FormControl>
               <FormLabel htmlFor="name">Name</FormLabel>
-              <Input autoFocus name="name" placeholder="Your name"
+              <Input autoFocus name="name" placeholder={userName}
                      value={userName}
                      disabled={isLoggedIn}
                      onChange={event => setUserName(event.target.value)}
@@ -184,16 +183,12 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           </Box>
         
           <Box p="4" borderWidth="1px" borderRadius="lg">
-            <Heading as="h2" size="lg">Already has an account?</Heading>
-            <FormControl>
-              <LoginPop />
-              <Button ml={4} onClick={logOut}>Log Out</Button>
-            </FormControl>
-          </Box>
+            <Heading as="h2" size="lg" hidden={isLoggedIn}>Play with a profile?</Heading>
+            <Heading as="h2" size="lg" hidden={!isLoggedIn}>Welcome {ProfileServices.getInstance().getUserName()}, You have logged in</Heading>
 
-          <Box p="4" borderWidth="1px" borderRadius="lg">
-            <Heading as="h2" size="lg">Or you can sign up here</Heading>
-            <FormControl mt={4}>
+            <FormControl p="4">
+              <LoginPop />
+              <Button ml={4} mr={8} onClick={logOut}>Log Out</Button>
               <SignupPop />
             </FormControl>
           </Box>
@@ -258,6 +253,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
             </Box>
           </Box>
 
+          {/*
           <Heading p="4" as="h2" size="lg">-or-</Heading>
           <Flex  borderWidth="1px" borderRadius="lg">
             <Box>
@@ -287,7 +283,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
             </Box>
           </Center>
         </Flex>
-
+          */}
         </Stack>
         </form>
     </>
