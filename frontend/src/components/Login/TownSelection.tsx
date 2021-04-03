@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState} from 'react';
-import { BrowserRouter, Link, useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import assert from "assert";
 import {
   Box,
@@ -43,7 +43,8 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const { apiClient } = useCoveyAppState();
   let isLoggedIn = ProfileServices.getInstance().getLoginStatus();
   const history = useHistory();
-  const handleClick = () => history.push("/login");
+  const handleClick = () => history.push("/login")
+  const handleSignUpClick = () => history.push("/register")
 
 
   const toast = useToast();
@@ -271,10 +272,8 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Spacer/>
           <Center>
             <Box >
-            <Button>
-            <BrowserRouter>
-              <Link to = "/register"> Sign up here </Link>
-            </BrowserRouter>    
+            <Button onClick = {handleSignUpClick}>
+              Sign Up Here
             </Button>
             </Box>
           </Center>
