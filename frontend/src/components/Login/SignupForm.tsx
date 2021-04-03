@@ -11,7 +11,9 @@ import {
   FormLabel,
   Input,
   Button,
-  useToast
+  useToast,
+  InputGroup,
+  InputRightElement
 } from "@chakra-ui/react";
 import ProfileService from "../../classes/Services/ProfileServices";
 
@@ -30,6 +32,8 @@ export default function SignUpFuc(): JSX.Element {
   const [answer3, setAnswer3] = useState("");
   const toast = useToast();
   const history = useHistory();
+  const [show, setShow] = React.useState(false)
+  const handleClick = () => setShow(!show)
 
   useEffect(() => {
     if (formState === "done") {
@@ -194,12 +198,21 @@ export default function SignUpFuc(): JSX.Element {
 
                 <FormControl mt={4} isRequired>
                   <FormLabel htmlFor="Password">Password</FormLabel>
-                  <Input
-                    size="md"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                  />
+                  <InputGroup>
+                    <Input
+                      size="md"
+                      type={show ? "text" : "password"}
+                      placeholder="Enter password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                    />
+                    <InputRightElement width="4.5rem">
+                      <Button h="1.75rem" size="sm" onClick={handleClick}>
+                        {show ? "Hide" : "Show"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+
                 </FormControl>
 
                 <Box mt={6} textAlign="center">
