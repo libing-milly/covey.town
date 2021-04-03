@@ -1,17 +1,14 @@
 import React, { useCallback, useEffect, useState} from 'react';
-import { useHistory } from "react-router-dom"
 import assert from "assert";
 import {
   Box,
   Button,
-  Center,
   Checkbox,
   Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
-  Spacer,
   Stack,
   Table,
   TableCaption,
@@ -43,9 +40,9 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const { connect } = useVideoContext();
   const { apiClient } = useCoveyAppState();
   let isLoggedIn = ProfileServices.getInstance().getLoginStatus();
-  const history = useHistory();
-  const handleClick = () => history.push("/login")
-  const handleSignUpClick = () => history.push("/register")
+  // const history = useHistory();
+  // const handleClick = () => history.push("/login")
+  // const handleSignUpClick = () => history.push("/register")
 
 
   const toast = useToast();
@@ -58,6 +55,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
         );
       })
   }, [setCurrentPublicTowns, apiClient]);
+  
   useEffect(() => {
     updateTownListings();
     isLoggedIn = ProfileServices.getInstance().getLoginStatus();
@@ -174,9 +172,9 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
             <Heading as="h2" size="lg">Select a username</Heading>
             <FormControl>
               <FormLabel htmlFor="name">Name</FormLabel>
-              <Input autoFocus name="name" placeholder={userName}
+              <Input autoFocus name="name" placeholder='Your name'
                      value={userName}
-                     disabled={isLoggedIn}
+                     // disabled={isLoggedIn}
                      onChange={event => setUserName(event.target.value)}
               />
             </FormControl>

@@ -44,13 +44,11 @@ const OthersProfile: React.FunctionComponent = () => {
     const isLoggedIn = ProfileService.getInstance().getLoginStatus();
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
-    const [loading, setLoading] = useState(false);
     const video = useMaybeVideo();
     const toast = useToast();
 
    
     const getProfiles = async() => {
-        setLoading(true);
         try{
             const res = await ProfileService.getInstance().getProfiles();
             setProfiles(res.data.profiles.filter(

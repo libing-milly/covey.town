@@ -1,5 +1,4 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import axios from 'axios';
 import {
     Avatar,
     Button,
@@ -23,7 +22,6 @@ import {
   } from '@chakra-ui/react';
   import MenuItem from '@material-ui/core/MenuItem';
   import Typography from '@material-ui/core/Typography';
-  import useCoveyAppState from '../../hooks/useCoveyAppState';
   import useMaybeVideo from '../../hooks/useMaybeVideo';
   import ProfileService from '../../classes/Services/ProfileServices';
 
@@ -35,14 +33,12 @@ import {
 ];
 
   const MyProfile: React.FunctionComponent = () => {
-    // get this userId from log in state
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
     const [email, setEmail] = useState('');
     const [newUserName, setNewUserName] = useState('');
     const [newIntroduction, setNewIntroduction] = useState('');
     const [newPicture, setNewPicture] = useState('');
-    const [loading, setLoading] = useState(false);
     const isLoggedIn = ProfileService.getInstance().getLoginStatus();
 
     
@@ -101,13 +97,7 @@ import {
     }
 
     const getProfile = async() => {
-        setLoading(true);
-
         try {
-          /*
-          setCurrentUserId(ProfileService.getInstance().getCurrentUserId());
-          const res = await axios.get(`https://frozen-peak-16230.herokuapp.com/api/users/${userId}`);
-          */
          const res = await ProfileService.getInstance().getCurrentUserProfile();
           setEmail(res.data.email);
           setNewUserName(res.data.username);
