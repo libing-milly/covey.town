@@ -85,8 +85,9 @@ export default class ProfileService {
       answer3,
     });
     this.currentUserId = res.data.user._id;
-    await this.createProfile();
     await this.login(userName, email, password);
+    await this.createProfile();
+    // console.log('sign up: ' , typeof(res));
     return res;
   };
 
@@ -94,6 +95,8 @@ export default class ProfileService {
   getProfiles = async() => {
     const res = await axios.get(profileAPI);
     this.isLoggedIn = true;
+    // console.log('get prof: ' , typeof(res));
+
     return res;
   }
 
@@ -101,6 +104,8 @@ export default class ProfileService {
   getCurrentUserProfile = async() => {
     const res = await axios.get(`${profileAPI}/${this.currentUserId}/profile`);
     this.currentProfileId = res.data._id;
+    // console.log('get cur: ' , typeof res);
+
     return res;
   };
 
