@@ -27,6 +27,7 @@ import Video from '../../classes/Video/Video';
 import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClient';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
 import LoginPop from './LoginPop';
+import SignupPop from './SignupPop';
 import ProfileServices from '../../classes/Services/ProfileServices';
 
 interface TownSelectionProps {
@@ -189,6 +190,14 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               <Button ml={4} onClick={logOut}>Log Out</Button>
             </FormControl>
           </Box>
+
+          <Box p="4" borderWidth="1px" borderRadius="lg">
+            <Heading as="h2" size="lg">Or you can sign up here</Heading>
+            <FormControl mt={4}>
+              <SignupPop />
+            </FormControl>
+          </Box>
+
           <Box borderWidth="1px" borderRadius="lg">
             <Heading p="4" as="h2" size="lg">Create a New Town</Heading>
             <Flex p="4">
