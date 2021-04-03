@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { BrowserRouter, Link } from "react-router-dom"
+import React, { useCallback, useEffect, useState} from 'react';
+import { BrowserRouter, Link, useHistory} from "react-router-dom"
 import assert from "assert";
 import {
   Box,
@@ -16,7 +16,6 @@ import {
   Table,
   TableCaption,
   Tbody,
-  Text,
   Td,
   Th,
   Thead,
@@ -27,7 +26,6 @@ import useVideoContext from '../VideoCall/VideoFrontend/hooks/useVideoContext/us
 import Video from '../../classes/Video/Video';
 import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClient';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
-import SignUpForm from './SignupForm';
 
 interface TownSelectionProps {
   doLogin: (initData: TownJoinResponse) => Promise<boolean>
@@ -41,12 +39,13 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const [currentPublicTowns, setCurrentPublicTowns] = useState<CoveyTownInfo[]>();
   const { connect } = useVideoContext();
   const { apiClient } = useCoveyAppState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const history = useHistory();
+  const handleClick = () => history.push("/login")
+
 
   const toast = useToast();
 
   const updateTownListings = useCallback(() => {
-    // console.log(apiClient);
     apiClient.listTowns()
       .then((towns) => {
         setCurrentPublicTowns(towns.towns
@@ -220,15 +219,13 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Heading p="4" as="h2" size="lg">-or-</Heading>
           <Flex  borderWidth="1px" borderRadius="lg">
             <Box>
-            <Heading p="4" as="h2" size="lg">To keep your own account</Heading>
+            <Heading p="4" as="h2" size="lg">To keep your own Town</Heading>
             </Box>
           <Spacer/>
           <Center>
           <Box >
-          <Button onClick = { () => {setIsLoggedIn(true)}}>
-            <BrowserRouter>
-              <Link to = "/login"> Sign In </Link>
-            </BrowserRouter>    
+          <Button onClick = {handleClick}>
+            Sign In Here  
             </Button>
             </Box>
           </Center>
@@ -237,7 +234,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           <Heading p="4" as="h2" size="lg">-or-</Heading>
           <Flex  borderWidth="1px" borderRadius="lg">
             <Box>
-            <Heading p="4" as="h2" size="lg">To Sign Up your own account</Heading>
+            <Heading p="4" as="h2" size="lg">Don&lsquo;t have an account?</Heading>
             </Box>
           <Spacer/>
           <Center>

@@ -14,7 +14,6 @@ import {
   useToast,
 
 } from '@chakra-ui/react'
-import axios from 'axios';
 import ProfileService from '../../classes/Services/ProfileServices';
 
 const VARIANT_COLOR = "teal";
@@ -27,6 +26,7 @@ const LoginHeader = () => (
 
 
 function LoginForm(): JSX.Element {  
+  // eslint-disable-next-line
   const [loggedInUserId, setLoggedInUserId] = useState(''); 
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
@@ -57,14 +57,10 @@ function LoginForm(): JSX.Element {
     try {
       setLoading(true);
       const res = await ProfileService.getInstance().login(userEmail, userPassword);
-      /*
-      const res = await axios.post(`https://secure-anchorage-87188.herokuapp.com/api/users/login`,
-      {email: userEmail, password: userPassword });
-      */
       setLoggedInUserId(res.data.user._id);
       
       toast({
-        title: 'You logged in',
+        title: 'You have logged in',
         description: 'You have logged in',
         status: 'success',
       });
@@ -75,8 +71,8 @@ function LoginForm(): JSX.Element {
     } catch (err){
       setLoading(false);
       toast({
-        title: 'Unable to Login',
-        description: 'Please enter a valid email address or  password',
+        title: 'Unable to login',
+        description: 'Please enter a valid email address or password',
         status: 'error',
       });
       
