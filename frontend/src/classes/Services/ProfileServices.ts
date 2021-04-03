@@ -104,8 +104,10 @@ export default class ProfileService {
 
   // also need to clear room id when user disconnect
   updateRoomId = async (roomId : string) => {
-    await this.getCurrentUserProfile();
-    await axios.put(`${profileAPI}/${this.currentProfileId}`, { roomId });    
+    if(this.isLoggedIn){
+      await this.getCurrentUserProfile();
+      await axios.put(`${profileAPI}/${this.currentProfileId}`, { roomId }); 
+    }   
   };
 
   getProfiles = async() => {

@@ -41,7 +41,7 @@ interface Profile {
 const OthersProfile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const { currentTownID } = useCoveyAppState();
-    // const currentRoomId = ;
+    const isLoggedIn = ProfileService.getInstance().getLoginStatus();
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [loading, setLoading] = useState(false);
@@ -53,7 +53,6 @@ const OthersProfile: React.FunctionComponent = () => {
         setLoading(true);
         try{
             const res = await ProfileService.getInstance().getProfiles();
-            console.log(res);
             setProfiles(res.data.profiles.filter(
               (p : any) => p.roomId === currentTownID));
             
@@ -85,7 +84,7 @@ const OthersProfile: React.FunctionComponent = () => {
 
     return <>        
           
-          <MenuItem data-testid='openMenuButton' onClick={openPlayersList}>
+          <MenuItem data-testid='openMenuButton' disabled={!isLoggedIn} onClick={openPlayersList}>
             <Typography variant="body1">Players Profile</Typography>
             </MenuItem>
             

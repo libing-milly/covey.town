@@ -41,14 +41,14 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const [currentPublicTowns, setCurrentPublicTowns] = useState<CoveyTownInfo[]>();
   const { connect } = useVideoContext();
   const { apiClient } = useCoveyAppState();
+  let isLoggedIn = ProfileServices.getInstance().getLoginStatus();
   const history = useHistory();
-  const handleClick = () => history.push("/login")
+  const handleClick = () => history.push("/login");
 
 
   const toast = useToast();
 
   const updateTownListings = useCallback(() => {
-    setUserName(ProfileServices.getInstance().getUserName());
     apiClient.listTowns()
       .then((towns) => {
         setCurrentPublicTowns(towns.towns
@@ -58,19 +58,24 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   }, [setCurrentPublicTowns, apiClient]);
   useEffect(() => {
     updateTownListings();
+    isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     const timer = setInterval(updateTownListings, 2000);
     return () => {
       clearInterval(timer)
     };
-  }, [updateTownListings]);
+  }, [updateTownListings, isLoggedIn]);
 
   const handleJoin = useCallback(async (coveyRoomID: string) => {
+    isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     try {
-      setUserName(ProfileServices.getInstance().getUserName());
-      if (!userName || userName.length === 0) {
+      if(isLoggedIn) {
+        setUserName(ProfileServices.getInstance().getUserName());
+        console.log(userName);
+      }
+      if ((!userName || userName.length === 0) && !isLoggedIn) {
         toast({
           title: 'Unable to join town',
-          description: 'Please sign up or log in first',
+          description: 'Please enter a user name',
           status: 'error',
         });
         return;
@@ -97,14 +102,17 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
         status: 'error'
       })
     }
-  }, [doLogin, userName, connect, toast]);
+  }, [doLogin, userName, connect, toast, isLoggedIn]);
 
   const handleCreate = async () => {
-    setUserName(ProfileServices.getInstance().getUserName());
-    if (!userName || userName.length === 0) {
+    isLoggedIn = ProfileServices.getInstance().getLoginStatus();
+    if(isLoggedIn) {
+      setUserName(ProfileServices.getInstance().getUserName());
+    }
+    if ((!userName || userName.length === 0) && !isLoggedIn) {
       toast({
         title: 'Unable to create town',
-        description: 'Please sign up or log in before creating a town',
+        description: 'Please enter a user name',
         status: 'error',
       });
       return;
@@ -167,6 +175,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               <FormLabel htmlFor="name">Name</FormLabel>
               <Input autoFocus name="name" placeholder="Your name"
                      value={userName}
+                     disabled={isLoggedIn}
                      onChange={event => setUserName(event.target.value)}
               />
             </FormControl>
