@@ -27,7 +27,6 @@ const LoginHeader = () => (
 
 function LoginForm(): JSX.Element {  
   // eslint-disable-next-line
-  const [loggedInUserId, setLoggedInUserId] = useState(''); 
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -56,9 +55,7 @@ function LoginForm(): JSX.Element {
     }
     try {
       setLoading(true);
-      const res = await ProfileService.getInstance().login(userEmail, userPassword);
-      setLoggedInUserId(res.data.user._id);
-      
+      await ProfileService.getInstance().login(userEmail, userPassword);      
       toast({
         title: 'You have logged in',
         description: 'You have logged in',

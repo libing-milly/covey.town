@@ -85,7 +85,7 @@ import {
             description: 'You have updated your profile',
             status: 'success',
           });
-          
+          closeProfile();
 
         }catch (err) {
           toast({

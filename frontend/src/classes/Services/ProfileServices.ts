@@ -25,10 +25,6 @@ const userAPI = 'https://secure-anchorage-87188.herokuapp.com/api/users';
 
 
 
-interface ServerData {
-  foo: string
-  bar: number
-}
 
 export default class ProfileService {
   private static myInstance : ProfileService;
@@ -37,6 +33,8 @@ export default class ProfileService {
 
   private currentProfileId = '';
 
+  private currentUserName = '';
+
   static getInstance() : ProfileService {
     if (ProfileService.myInstance == null) {
       ProfileService.myInstance = new ProfileService();
@@ -44,13 +42,17 @@ export default class ProfileService {
     return this.myInstance;
   }
 
-  
+  getUserName = () => this.currentUserName;
+
+  setUserName = (userName : string) => {
+    this.currentUserName = userName;
+    console.log(userName);
+  }
 
   login = async (userEmail : string, userPassword : string) => {
     const res = await axios.post(`${userAPI}/login`, { email: userEmail, password: userPassword });
-    console.log(res);
     this.currentUserId = res.data.user._id;
-    return res;
+    console.log(res);
   };
 
   signUp = async (email : string, password : string, question1 : string, 

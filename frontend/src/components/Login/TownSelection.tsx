@@ -26,6 +26,8 @@ import useVideoContext from '../VideoCall/VideoFrontend/hooks/useVideoContext/us
 import Video from '../../classes/Video/Video';
 import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClient';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
+import LoginPop from './LoginPop';
+import ProfileServices from '../../classes/Services/ProfileServices';
 
 interface TownSelectionProps {
   doLogin: (initData: TownJoinResponse) => Promise<boolean>
@@ -46,6 +48,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const toast = useToast();
 
   const updateTownListings = useCallback(() => {
+    setUserName(ProfileServices.getInstance().getUserName());
     apiClient.listTowns()
       .then((towns) => {
         setCurrentPublicTowns(towns.towns
@@ -63,10 +66,11 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
 
   const handleJoin = useCallback(async (coveyRoomID: string) => {
     try {
+      setUserName(ProfileServices.getInstance().getUserName());
       if (!userName || userName.length === 0) {
         toast({
           title: 'Unable to join town',
-          description: 'Please select a username',
+          description: 'Please sign up or log in first',
           status: 'error',
         });
         return;
@@ -96,10 +100,11 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   }, [doLogin, userName, connect, toast]);
 
   const handleCreate = async () => {
+    setUserName(ProfileServices.getInstance().getUserName());
     if (!userName || userName.length === 0) {
       toast({
         title: 'Unable to create town',
-        description: 'Please select a username before creating a town',
+        description: 'Please sign up or log in before creating a town',
         status: 'error',
       });
       return;
@@ -146,15 +151,22 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
     <>
       <form>
         <Stack>
+          {/*
           <Box p="4" borderWidth="1px" borderRadius="lg">
             <Heading as="h2" size="lg">Select a username</Heading>
-
             <FormControl>
               <FormLabel htmlFor="name">Name</FormLabel>
               <Input autoFocus name="name" placeholder="Your name"
                      value={userName}
                      onChange={event => setUserName(event.target.value)}
               />
+            </FormControl>
+          </Box>
+        */}
+          <Box p="4" borderWidth="1px" borderRadius="lg">
+            <Heading as="h2" size="lg">Log in</Heading>
+            <FormControl>
+              <LoginPop />
             </FormControl>
           </Box>
           <Box borderWidth="1px" borderRadius="lg">
@@ -216,6 +228,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               </Table>
             </Box>
           </Box>
+
           <Heading p="4" as="h2" size="lg">-or-</Heading>
           <Flex  borderWidth="1px" borderRadius="lg">
             <Box>
