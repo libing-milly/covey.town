@@ -24,6 +24,7 @@ const profileAPI = 'https://secure-anchorage-87188.herokuapp.com/api/profiles';
 const userAPI = 'https://secure-anchorage-87188.herokuapp.com/api/users';
 
 /*
+
 type ResponseType = {
   res: AxiosResponse<string>
 }
@@ -68,6 +69,7 @@ export default class ProfileService {
     this.setLoginStatus(true);
   };
 
+  // need a return type
   signUp = async(userName: string, email : string, password : string, 
     question1 : string, answer1 : string, 
     question2 : string, answer2 : string, 
@@ -88,6 +90,20 @@ export default class ProfileService {
     return res;
   };
 
+  // need a return type
+  getProfiles = async() => {
+    const res = await axios.get(profileAPI);
+    this.isLoggedIn = true;
+    return res;
+  }
+
+  // need a return type
+  getCurrentUserProfile = async() => {
+    const res = await axios.get(`${profileAPI}/${this.currentUserId}/profile`);
+    this.currentProfileId = res.data._id;
+    return res;
+  };
+
   async createProfile () : Promise<void> {
     const res = await axios.post(`${profileAPI}/${this.currentUserId}/profile`, {
       username: this.currentUserName,
@@ -98,13 +114,11 @@ export default class ProfileService {
     this.currentProfileId = res.data.profile._id;
   };
 
+  
+
   getCurrentUserId () : string { return this.currentUserId; }
 
-  getCurrentUserProfile = async() => {
-    const res = await axios.get(`${profileAPI}/${this.currentUserId}/profile`);
-    this.currentProfileId = res.data._id;
-    return res;
-  };
+  
 
   async updateProfile (username: string, imageUrl: string, selfIntro: string) : Promise<void> {
     await axios.put(`${profileAPI}/${this.currentProfileId}`, 
@@ -119,12 +133,7 @@ export default class ProfileService {
     }   
   };
 
-  getProfiles = async() => {
-    const res = await axios.get(profileAPI);
-    this.isLoggedIn = true;
-    return res;
-    
-  }
+  
 
   logOut () : void {
     this.currentUserId = '';
