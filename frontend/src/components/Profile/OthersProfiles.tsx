@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
 import useMaybeVideo from '../../hooks/useMaybeVideo';
-import ProfileService from '../../classes/Services/ProfileServices';
+import ProfileService, { GetProfileByUserResponse } from '../../classes/Services/ProfileServices';
 
 
 
@@ -48,11 +48,11 @@ const OthersProfile: React.FunctionComponent = () => {
     const toast = useToast();
 
    
-    const getProfiles = async() => {
+    const getProfiles = useCallback(async() => {
         try{
             const res = await ProfileService.getInstance().getProfiles();
-            setProfiles(res.data.profiles.filter(
-              (p : any) => p.roomId === currentTownID));
+            setProfiles(res.profiles.filter(
+              (p : GetProfileByUserResponse) => p.roomId === currentTownID));
             
         }
         catch(err) {
@@ -63,17 +63,17 @@ const OthersProfile: React.FunctionComponent = () => {
               });
         }
         
-    }
+    }, [toast, currentTownID])
     
     useEffect(() => {
         getProfiles();
-    }, []);
+    }, [getProfiles]);
 
     const openPlayersList = useCallback(async()=>{
         await getProfiles();
         onOpen();
         video?.pauseGame();
-      }, [onOpen, video]);
+      }, [onOpen, video, getProfiles]);
     
       const closePlayersList = useCallback(()=>{
         onClose();
@@ -95,7 +95,7 @@ const OthersProfile: React.FunctionComponent = () => {
               <DrawerOverlay>
                 <DrawerContent>
                   <DrawerCloseButton />
-                  <DrawerHeader>Players List</DrawerHeader>
+                  <DrawerHeader>Players in the Room</DrawerHeader>
       
                   <DrawerBody>
                   <VStack

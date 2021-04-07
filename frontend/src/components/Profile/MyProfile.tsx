@@ -3,7 +3,6 @@ import {
     Avatar,
     Button,
     Textarea,
-    Text,
     FormControl,
     FormLabel,
     Input,
@@ -35,7 +34,6 @@ import {
   const MyProfile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const video = useMaybeVideo();
-    const [email, setEmail] = useState('');
     const [newUserName, setNewUserName] = useState('');
     const [newIntroduction, setNewIntroduction] = useState('');
     const [newPicture, setNewPicture] = useState('');
@@ -73,7 +71,6 @@ import {
           return;
         }
         try{
-          // const json = {username: newUserName, password: newPassword, imageUrl: newPicture, selfIntro: newIntroduction};
           await ProfileService.getInstance().updateProfile(
             newUserName, newPicture, newIntroduction
           );
@@ -96,13 +93,12 @@ import {
 
     }
 
-    const getProfile = async() => {
+    const getProfile  = useCallback( async() => {
         try {
          const res = await ProfileService.getInstance().getCurrentUserProfile();
-          setEmail(res.data.email);
-          setNewUserName(res.data.username);
-          setNewPicture(res.data.imageUrl);
-          setNewIntroduction(res.data.selfIntro);
+          setNewUserName(res.username);
+          setNewPicture(res.imageUrl);
+          setNewIntroduction(res.selfIntro);
 
         } catch(err) {
           toast({
@@ -112,11 +108,11 @@ import {
           });
         }
         
-      }
+      },[toast])
     
       useEffect(() => {
         getProfile();
-      }, []);
+      }, [getProfile]);
 
 
     return <>
@@ -134,9 +130,6 @@ import {
                 spacing={4}
                 align="center"
                 >
-                <Box>
-                    <Text fontSize="20px">Email: {email}</Text>
-                </Box>
                 <Box>
                     <Avatar
                         borderRadius="full"

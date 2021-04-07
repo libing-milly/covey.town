@@ -39,10 +39,6 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const [currentPublicTowns, setCurrentPublicTowns] = useState<CoveyTownInfo[]>();
   const { connect } = useVideoContext();
   const { apiClient } = useCoveyAppState();
-  let isLoggedIn = ProfileServices.getInstance().getLoginStatus();
-  // const history = useHistory();
-  // const handleClick = () => history.push("/login")
-  // const handleSignUpClick = () => history.push("/register")
 
 
   const toast = useToast();
@@ -56,17 +52,17 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
       })
   }, [setCurrentPublicTowns, apiClient]);
   
+
   useEffect(() => {
     updateTownListings();
-    isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     const timer = setInterval(updateTownListings, 2000);
     return () => {
       clearInterval(timer)
     };
-  }, [updateTownListings, isLoggedIn]);
+  }, [updateTownListings]);
 
   const handleJoin = useCallback(async (coveyRoomID: string) => {
-    isLoggedIn = ProfileServices.getInstance().getLoginStatus();
+    const isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     try {
       if(isLoggedIn) {
         setUserName(ProfileServices.getInstance().getUserName());
@@ -101,10 +97,10 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
         status: 'error'
       })
     }
-  }, [doLogin, userName, connect, toast, isLoggedIn]);
+  }, [doLogin, userName, connect, toast]);
 
   const handleCreate = async () => {
-    isLoggedIn = ProfileServices.getInstance().getLoginStatus();
+    const isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     if(isLoggedIn) {
       setUserName(ProfileServices.getInstance().getUserName());
     }
@@ -181,12 +177,12 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
           </Box>
         
           <Box p="4" borderWidth="1px" borderRadius="lg">
-            <Heading as="h2" size="lg" hidden={isLoggedIn}>Play with a profile?</Heading>
-            <Heading as="h2" size="lg" hidden={!isLoggedIn}>Welcome {ProfileServices.getInstance().getUserName()}, You have logged in</Heading>
+            <Heading as="h2" size="lg" hidden={ProfileServices.getInstance().getLoginStatus()}>Play with a profile?</Heading>
+            <Heading as="h2" size="lg" hidden={!ProfileServices.getInstance().getLoginStatus()}>Welcome {ProfileServices.getInstance().getUserName()}, You have logged in</Heading>
 
             <FormControl p="4">
               <LoginPop />
-              <Button ml={4} mr={8} disabled={!isLoggedIn} onClick={logOut}>Log Out</Button>
+              <Button ml={4} mr={8} disabled={!ProfileServices.getInstance().getLoginStatus()} onClick={logOut}>Log Out</Button>
               <SignupPop />
             </FormControl>
           </Box>

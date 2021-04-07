@@ -60,15 +60,25 @@ import {
             return;
         }
         try {
-          setLoading(true)
-          await ProfileService.getInstance().login(userName, userEmail, userPassword);
+          setLoading(true);
+          const statusCode = await ProfileService.getInstance().login(userName, userEmail, userPassword);
+          
+          if (statusCode >= 400) {
+            toast({
+                title: "Unable to Log in",
+                description: `error code:  ${statusCode}`,
+                status: "error"
+            });
+          }else {
+          
           toast({
             title: 'You have logged in',
             description: 'You have logged in',
             status: 'success',
-          });  
+          });
+          setLoading(false);  
           closeLogin();  
-    
+          }
         } catch (err){
           setLoading(false);
           toast({
@@ -115,8 +125,9 @@ import {
             <ModalFooter>
               <Button colorScheme="blue" mr={3} type = "submit" disabled = {loading}
               onClick={authHandler}>
-               {loading ? "Loading ..." : "Login"} 
+                {loading ? "Loading ..." : "Login"} 
               </Button>
+              
               <Button onClick={closeLogin}>Cancel</Button>
             </ModalFooter>
           </form>

@@ -35,8 +35,10 @@ export default function SignupPop(): JSX.Element {
     const [answer3, setAnswer3] = useState("");
     const {isOpen, onOpen, onClose} = useDisclosure();
     const toast = useToast();
-    const [show, setShow] = React.useState(false)
-    const handleClick = () => setShow(!show)
+    const [show, setShow] = React.useState(false);
+    const handleClick = () => setShow(!show);
+    const [loading, setLoading] = useState(false);
+
 
     const openSignUp = useCallback(()=>{
         onOpen();
@@ -62,29 +64,26 @@ export default function SignupPop(): JSX.Element {
 
     const signUpHandler = async () => {
         try {
+            setLoading(true);
             setFormState("loading");
-            const response = await ProfileService.getInstance().signUp(
+            await ProfileService.getInstance().signUp(
             userName, email, password, question1, answer1, question2, answer2, question3, answer3);
-
-            if (response.status >= 400) {
-            setFormState("error");
-            const errorMessage = response.data.message;
-            toast({
-                title: "Unable to SignUp",
-                description: errorMessage.toString(),
-                status: "error"
-            });
-            } else {
+            
+            
             toast({
                 title: "Congratulations!",
                 description: "Sign Up Successfully! You have been logged in",
                 status: "success"
             });
+            
             setFormState("done"); 
+            setLoading(false);
             closeSignUp();
 
-            }
+        
         } catch (err) {
+            setLoading(false);
+
             toast({
             title: "Unable to SignUp Your Account",
             description: err.toString(),
@@ -224,12 +223,18 @@ export default function SignupPop(): JSX.Element {
             </ModalBody>
 
             <ModalFooter>
+                <Button colorScheme={VARIANT_COLOR} mr={3} type = "submit" disabled = {loading}
+                onClick={signUpHandler}>
+                {loading ? "Loading ..." : "Sign Up"} 
+                </Button>
+                {/*
                 <Button
                     colorScheme={VARIANT_COLOR}
                     mr={3}
                     onClick={signUpHandler}>
                     Sign Up
                 </Button>
+                */}
                 <Button
                     onClick={closeSignUp}>Cancel
                 </Button>

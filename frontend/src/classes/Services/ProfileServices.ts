@@ -1,4 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import assert from 'assert';
+
 /*
 profiles: https://secure-anchorage-87188.herokuapp.com/api/profiles
 router.post('/:uid/profile', controller.createProfileForUser);
@@ -23,12 +25,52 @@ router.get('/:uid', controller.getUserById);
 const profileAPI = 'https://secure-anchorage-87188.herokuapp.com/api/profiles';
 const userAPI = 'https://secure-anchorage-87188.herokuapp.com/api/users';
 
-/*
 
-type ResponseType = {
-  res: AxiosResponse<string>
+
+/**
+ * Response from server for signing up
+ */
+export interface SignUpResponse {
+  _id: string,
+  email: string,
+  password: string,
+  question1: string,
+  answer1: string,
+  question2: string,
+  answer2: string,
+  question3: string,
+  answer3: string
 }
-*/
+
+
+/**
+ * Response from server for logging in
+ */
+export interface GetAllProfilesResponse {
+  profiles: [],
+  count: string
+}
+
+/**
+ * Response from server for get profile by user
+ */
+export interface GetProfileByUserResponse {
+  _id: string,
+  userId : string,
+  username : string,
+  imageUrl : string,
+  selfIntro : string,
+  roomId : string
+}
+
+/**
+ * Envelope that wraps any response from the server
+ */
+export interface ResponseEnvelope<T> {
+  isOK: boolean;
+  message?: string;
+  response?: T;
+}
 
 
 
@@ -50,6 +92,17 @@ export default class ProfileService {
     return this.myInstance;
   }
 
+  static unWrapOrThrowError<T>(response: AxiosResponse<ResponseEnvelope<T>>): T {
+    if (response.data.isOK) {
+      assert(response.data.response);
+      return response.data.response;
+    } 
+    
+    throw new Error(`Error processing request: ${response.data.message}`);
+    
+    
+  }
+
   getUserName () : string { return this.currentUserName;}
 
   setUserName (userName : string) : void {
@@ -62,18 +115,19 @@ export default class ProfileService {
     this.isLoggedIn = loggedIn;
   }
 
-  async login (userName : string, userEmail : string, userPassword : string) : Promise<void> {
+  async login (userName : string, userEmail : string, userPassword : string) : Promise<number> {
     const res = await axios.post(`${userAPI}/login`, { email: userEmail, password: userPassword });
-    this.currentUserId = res.data.user._id;
+    this.currentUserId = res.data.response.user._id;
     this.setUserName(userName);
     this.setLoginStatus(true);
+    await this.getCurrentUserProfile();
+    return res.status;
   };
 
-  // need a return type
-  signUp = async(userName: string, email : string, password : string, 
+  async signUp (userName: string, email : string, password : string, 
     question1 : string, answer1 : string, 
     question2 : string, answer2 : string, 
-    question3 : string, answer3 : string) => {
+    question3 : string, answer3 : string) : Promise<void> {
     const res = await axios.post(`${userAPI}/register`, {
       email,
       password,
@@ -84,39 +138,33 @@ export default class ProfileService {
       question3,
       answer3,
     });
-    this.currentUserId = res.data.user._id;
-    await this.login(userName, email, password);
+    this.currentUserId = res.data.response.user._id;
+    this.currentUserName = userName;
     await this.createProfile();
-    // console.log('sign up: ' , typeof(res));
-    return res;
+    this.setLoginStatus(true);
+    await this.getCurrentUserProfile();
   };
 
-  // need a return type
-  getProfiles = async() => {
+  async getProfiles () : Promise<GetAllProfilesResponse> {
     const res = await axios.get(profileAPI);
     this.isLoggedIn = true;
-    // console.log('get prof: ' , typeof(res));
-
-    return res;
+    return ProfileService.unWrapOrThrowError(res);
   }
 
-  // need a return type
-  getCurrentUserProfile = async() => {
+  async getCurrentUserProfile () : Promise<GetProfileByUserResponse> {
     const res = await axios.get(`${profileAPI}/${this.currentUserId}/profile`);
-    this.currentProfileId = res.data._id;
-    // console.log('get cur: ' , typeof res);
-
-    return res;
+    this.currentProfileId = res.data.response.data._id;
+    return ProfileService.unWrapOrThrowError(res);
   };
 
   async createProfile () : Promise<void> {
-    const res = await axios.post(`${profileAPI}/${this.currentUserId}/profile`, {
+    await axios.post(`${profileAPI}/${this.currentUserId}/profile`, {
       username: this.currentUserName,
       imageUrl: 'choose a profile picture',
       selfIntro: 'enter your self introduction',
       roomId: '',
     });
-    this.currentProfileId = res.data.profile._id;
+    
   };
 
   

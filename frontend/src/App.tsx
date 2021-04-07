@@ -2,7 +2,7 @@ import React, {
   Dispatch, SetStateAction, useCallback, useEffect, useMemo, useReducer, useState,
 } from 'react';
 import './App.css';
-import { BrowserRouter,Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -25,8 +25,7 @@ import { Callback } from './components/VideoCall/VideoFrontend/types';
 import Player, { ServerPlayer, UserLocation } from './classes/Player';
 import TownsServiceClient, { TownJoinResponse } from './classes/TownsServiceClient';
 import Video from './classes/Video/Video';
-import SignIn from './components/Login/LoginForm';
-import SignUp from './components/Login/SignupForm';
+import ProfileService from './classes/Services/ProfileServices';
 
 
 type CoveyAppUpdate =
@@ -141,6 +140,7 @@ function appStateReducer(state: CoveyAppState, update: CoveyAppUpdate): CoveyApp
       }
       break;
     case 'disconnect':
+      ProfileService.getInstance().updateRoomId("");
       state.socket?.disconnect();
       return defaultAppState();
     default:
@@ -269,8 +269,6 @@ export default function AppStateWrapper(): JSX.Element {
           </AppStateProvider>
         </MuiThemeProvider>
       </ChakraProvider>
-      <Route exact path="/login" component = {SignIn}/>
-      <Route exact path="/register" component = {SignUp}/>
     </BrowserRouter>
   );
 }

@@ -54,9 +54,10 @@ export default function SignUpFuc(): JSX.Element {
 
       
       // 需要讨论
-      const response = await ProfileService.getInstance().signUp("",
+      await ProfileService.getInstance().signUp("",
         email, password, question1, answer1, question2, answer2, question3, answer3); // 需要讨论 userName
 
+        /*
       if (response.status >= 400) {
         setFormState("error");
         const errorMessage = response.data.message; // 需要测试看看
@@ -74,6 +75,7 @@ export default function SignUpFuc(): JSX.Element {
         });
         setFormState("done");
       }
+      */
     } catch (err) {
       toast({
         title: "Unable to SignUp Your Account",
