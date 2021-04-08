@@ -50,11 +50,17 @@ export interface GetAllProfilesResponse {
   profiles: [],
   count: string
 }
-
 /**
  * Response from server for get profile by user
  */
 export interface GetProfileByUserResponse {
+  data : ProfileResponse
+}
+
+/**
+ * Response from server for get profile by user
+ */
+export interface ProfileResponse {
   _id: string,
   userId : string,
   username : string,
@@ -160,8 +166,8 @@ export default class ProfileService {
   async createProfile () : Promise<void> {
     await axios.post(`${profileAPI}/${this.currentUserId}/profile`, {
       username: this.currentUserName,
-      imageUrl: 'choose a profile picture',
-      selfIntro: 'enter your self introduction',
+      imageUrl: 'https://avatarfiles.alphacoders.com/125/125254.png',
+      selfIntro: '',
       roomId: '',
     });
     
@@ -178,7 +184,6 @@ export default class ProfileService {
     {username, imageUrl, selfIntro});
   };
 
-  // also need to clear room id when user disconnect
   async updateRoomId (roomId : string) : Promise<void> {
     if(this.isLoggedIn){
       await this.getCurrentUserProfile();

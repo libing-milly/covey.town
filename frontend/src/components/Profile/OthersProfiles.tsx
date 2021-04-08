@@ -25,11 +25,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
 import useMaybeVideo from '../../hooks/useMaybeVideo';
-import ProfileService, { GetProfileByUserResponse } from '../../classes/Services/ProfileServices';
+import ProfileService from '../../classes/Services/ProfileServices';
 
 
 
-interface Profile {
+interface ProfileResponse {
         id: string, 
         username: string,  
         selfIntro: string, 
@@ -43,7 +43,7 @@ const OthersProfile: React.FunctionComponent = () => {
     const { currentTownID } = useCoveyAppState();
     const isLoggedIn = ProfileService.getInstance().getLoginStatus();
     
-    const [profiles, setProfiles] = useState<Profile[]>([]);
+    const [profiles, setProfiles] = useState<ProfileResponse[]>([]);
     const video = useMaybeVideo();
     const toast = useToast();
 
@@ -52,7 +52,7 @@ const OthersProfile: React.FunctionComponent = () => {
         try{
             const res = await ProfileService.getInstance().getProfiles();
             setProfiles(res.profiles.filter(
-              (p : GetProfileByUserResponse) => p.roomId === currentTownID));
+              (p : ProfileResponse) => p.roomId === currentTownID));
             
         }
         catch(err) {

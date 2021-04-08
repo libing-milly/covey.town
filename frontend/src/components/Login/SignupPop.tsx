@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
     Button,
     Box,
@@ -24,7 +24,6 @@ const VARIANT_COLOR = "teal";
 
 export default function SignupPop(): JSX.Element {
     const [userName, setUserName] = useState("");
-    const [formState, setFormState] = useState("idle");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [question1, setQuestion1] = useState("");
@@ -49,23 +48,9 @@ export default function SignupPop(): JSX.Element {
       }, [onClose]);
 
 
-    useEffect(() => {
-    if (formState === "done") {
-        setTimeout(() => {
-        setFormState("idle");
-        setUserName("");
-        setEmail("");
-        setPassword("");
-        }, 3000);
-    } else if (formState === "error") {
-        setTimeout(() => setFormState("idle"), 3000);
-    }
-    });
-
     const signUpHandler = async () => {
         try {
             setLoading(true);
-            setFormState("loading");
             await ProfileService.getInstance().signUp(
             userName, email, password, question1, answer1, question2, answer2, question3, answer3);
             
@@ -76,7 +61,6 @@ export default function SignupPop(): JSX.Element {
                 status: "success"
             });
             
-            setFormState("done"); 
             setLoading(false);
             closeSignUp();
 
@@ -91,70 +75,6 @@ export default function SignupPop(): JSX.Element {
             });
         }
     };
-
-    const QuestionArea = () => (
-    <>
-        <FormControl mt={6} isRequired>
-        <FormLabel>Question 1</FormLabel>
-        <Input
-            size="md"
-            placeholder="Enter your question 1 here"
-            value={question1}
-            onChange={(event) => setQuestion1(event.target.value)}
-        />
-        </FormControl>
-
-        <FormControl mt={4} isRequired>
-        <FormLabel>Answer 1</FormLabel>
-        <Input
-            size="md"
-            placeholder="Enter your answer 1 here"
-            value={answer1}
-            onChange={(event) => setAnswer1(event.target.value)}
-        />
-        </FormControl>
-
-        <FormControl mt={4} isRequired>
-        <FormLabel>Question 2</FormLabel>
-        <Input
-            size="md"
-            placeholder="Enter your question 2 here"
-            value={question2}
-            onChange={(event) => setQuestion2(event.target.value)}
-        />
-        </FormControl>
-
-        <FormControl mt={4} isRequired>
-        <FormLabel>Answer 2</FormLabel>
-        <Input
-            size="md"
-            placeholder="Enter your answer 2 here"
-            value={answer2}
-            onChange={(event) => setAnswer2(event.target.value)}
-        />
-        </FormControl>
-
-        <FormControl mt={4} isRequired>
-        <FormLabel>Question 3</FormLabel>
-        <Input
-            size="md"
-            placeholder="Enter your question 3 here"
-            value={question3}
-            onChange={(event) => setQuestion3(event.target.value)}
-        />
-        </FormControl>
-
-        <FormControl mt={4} isRequired>
-        <FormLabel>Answer 3</FormLabel>
-        <Input
-            size="md"
-            placeholder="Enter your answer 3 here"
-            value={answer3}
-            onChange={(event) => setAnswer3(event.target.value)}
-        />
-        </FormControl>
-    </>
-    );
     
     
     return<>
@@ -218,7 +138,65 @@ export default function SignupPop(): JSX.Element {
                     </Heading>
                 </Box>
 
-                <QuestionArea />
+                <FormControl mt={6} isRequired>
+                <FormLabel>Question 1</FormLabel>
+                <Input
+                    size="md"
+                    placeholder="Enter your question 1 here"
+                    value={question1}
+                    onChange={(event) => setQuestion1(event.target.value)}
+                />
+                </FormControl>
+
+                <FormControl mt={4} isRequired>
+                <FormLabel>Answer 1</FormLabel>
+                <Input
+                    size="md"
+                    placeholder="Enter your answer 1 here"
+                    value={answer1}
+                    onChange={(event) => setAnswer1(event.target.value)}
+                />
+                </FormControl>
+
+                <FormControl mt={4} isRequired>
+                <FormLabel>Question 2</FormLabel>
+                <Input
+                    size="md"
+                    placeholder="Enter your question 2 here"
+                    value={question2}
+                    onChange={(event) => setQuestion2(event.target.value)}
+                />
+                </FormControl>
+
+                <FormControl mt={4} isRequired>
+                <FormLabel>Answer 2</FormLabel>
+                <Input
+                    size="md"
+                    placeholder="Enter your answer 2 here"
+                    value={answer2}
+                    onChange={(event) => setAnswer2(event.target.value)}
+                />
+                </FormControl>
+
+                <FormControl mt={4} isRequired>
+                <FormLabel>Question 3</FormLabel>
+                <Input
+                    size="md"
+                    placeholder="Enter your question 3 here"
+                    value={question3}
+                    onChange={(event) => setQuestion3(event.target.value)}
+                />
+                </FormControl>
+
+                <FormControl mt={4} isRequired>
+                <FormLabel>Answer 3</FormLabel>
+                <Input
+                    size="md"
+                    placeholder="Enter your answer 3 here"
+                    value={answer3}
+                    onChange={(event) => setAnswer3(event.target.value)}
+                />
+                </FormControl>
 
             </ModalBody>
 
@@ -227,14 +205,6 @@ export default function SignupPop(): JSX.Element {
                 onClick={signUpHandler}>
                 {loading ? "Loading ..." : "Sign Up"} 
                 </Button>
-                {/*
-                <Button
-                    colorScheme={VARIANT_COLOR}
-                    mr={3}
-                    onClick={signUpHandler}>
-                    Sign Up
-                </Button>
-                */}
                 <Button
                     onClick={closeSignUp}>Cancel
                 </Button>

@@ -24,12 +24,13 @@ import {
   import useMaybeVideo from '../../hooks/useMaybeVideo';
   import ProfileService from '../../classes/Services/ProfileServices';
 
-  const pictureOptions = [
-    'https://bit.ly/code-beast', 
-    'https://bit.ly/sage-adebayo', 
-    'https://bit.ly/dan-abramov',
+  
+const pictureOptions = [
+  'https://avatarfiles.alphacoders.com/201/201969.jpg',
+  'https://avatarfiles.alphacoders.com/125/125254.png',
+  'https://avatarfiles.alphacoders.com/251/251721.jpg',
 
-];
+]
 
   const MyProfile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -38,21 +39,36 @@ import {
     const [newIntroduction, setNewIntroduction] = useState('');
     const [newPicture, setNewPicture] = useState('');
     const isLoggedIn = ProfileService.getInstance().getLoginStatus();
-
+    const toast = useToast();
     
+    const getProfile  = useCallback( async() => {
+      try {
+        const res = await ProfileService.getInstance().getCurrentUserProfile();
+        setNewUserName(res.data.username);
+        setNewPicture(res.data.imageUrl);
+        setNewIntroduction(res.data.selfIntro);
 
+      } catch(err) {
+        toast({
+          title: 'Unable to connect to Profile Service',
+          description: err.toString(),
+          status: 'error'
+        });
+      }
+      
+    },[toast]);
 
     const openProfile = useCallback(()=>{
+        getProfile();
         onOpen();
         video?.pauseGame();
-      }, [onOpen, video]);
+      }, [onOpen, video, getProfile]);
     
       const closeProfile = useCallback(()=>{
         onClose();
         video?.unPauseGame();
       }, [onClose, video]);
     
-      const toast = useToast()
 
     const handleUpdate = async() => {
         if(newUserName.length === 0) {
@@ -89,26 +105,7 @@ import {
           });
 
         }
-        
-
     }
-
-    const getProfile  = useCallback( async() => {
-        try {
-         const res = await ProfileService.getInstance().getCurrentUserProfile();
-          setNewUserName(res.username);
-          setNewPicture(res.imageUrl);
-          setNewIntroduction(res.selfIntro);
-
-        } catch(err) {
-          toast({
-            title: 'Unable to connect to Profile Service',
-            description: err.toString(),
-            status: 'error'
-          });
-        }
-        
-      },[toast])
     
       useEffect(() => {
         getProfile();
@@ -139,9 +136,9 @@ import {
                 </Box>
                 <Box>
                     <Select value={newPicture} onChange={(ev)=> setNewPicture( ev.target.value)}>
-                        <option value={pictureOptions[0]}>option 1</option>
-                        <option value={pictureOptions[1]}>option 2</option>
-                        <option value={pictureOptions[2]}>option 3</option>
+                        <option value={pictureOptions[0]}>Squidward Tentacles</option>
+                        <option value={pictureOptions[1]}>Sponge Bob</option>
+                        <option value={pictureOptions[2]}>Patrick Star</option>
                     </Select>
                 </Box>
                 
