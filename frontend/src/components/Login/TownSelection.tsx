@@ -64,6 +64,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const handleJoin = useCallback(async (coveyRoomID: string) => {
     const isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     try {
+      // if the user is logged in, set username as what's inputted into log in window
       if(isLoggedIn) {
         setUserName(ProfileServices.getInstance().getUserName());
       }
@@ -102,6 +103,7 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const handleCreate = async () => {
     const isLoggedIn = ProfileServices.getInstance().getLoginStatus();
     if(isLoggedIn) {
+      // if the user is logged in, set username as what's inputted into log in window
       setUserName(ProfileServices.getInstance().getUserName());
     }
     if ((!userName || userName.length === 0) && !isLoggedIn) {
@@ -170,7 +172,6 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               <FormLabel htmlFor="name">Name</FormLabel>
               <Input autoFocus name="name" placeholder='Your name'
                      value={userName}
-                     // disabled={isLoggedIn}
                      onChange={event => setUserName(event.target.value)}
               />
             </FormControl>
@@ -246,38 +247,6 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               </Table>
             </Box>
           </Box>
-
-          {/*
-          <Heading p="4" as="h2" size="lg">-or-</Heading>
-          <Flex  borderWidth="1px" borderRadius="lg">
-            <Box>
-            <Heading p="4" as="h2" size="lg">To keep your own Town</Heading>
-            </Box>
-          <Spacer/>
-          <Center>
-          <Box >
-          <Button onClick = {handleClick}>
-            Sign In Here  
-            </Button>
-            </Box>
-          </Center>
-          </Flex>
-
-          <Heading p="4" as="h2" size="lg">-or-</Heading>
-          <Flex  borderWidth="1px" borderRadius="lg">
-            <Box>
-            <Heading p="4" as="h2" size="lg">Don&lsquo;t have an account?</Heading>
-            </Box>
-          <Spacer/>
-          <Center>
-            <Box >
-            <Button onClick = {handleSignUpClick}>
-              Sign Up Here
-            </Button>
-            </Box>
-          </Center>
-        </Flex>
-          */}
         </Stack>
         </form>
     </>

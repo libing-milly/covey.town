@@ -140,6 +140,7 @@ function appStateReducer(state: CoveyAppState, update: CoveyAppUpdate): CoveyApp
       }
       break;
     case 'disconnect':
+      // when a player disconnects, update its room id to empty string.
       ProfileService.getInstance().updateRoomId("");
       state.socket?.disconnect();
       return defaultAppState();

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import {
   ThemeProvider,
   theme,
@@ -31,7 +30,7 @@ export default function SignUpFuc(): JSX.Element {
   const [question3, setQuestion3] = useState("");
   const [answer3, setAnswer3] = useState("");
   const toast = useToast();
-  const history = useHistory();
+  // const history = useHistory();
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
 

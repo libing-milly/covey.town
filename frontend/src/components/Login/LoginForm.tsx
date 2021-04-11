@@ -1,5 +1,5 @@
 import React, { useState}from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router';
 import {
   ThemeProvider,
   theme,
@@ -26,7 +26,6 @@ const LoginHeader = () => (
 
 
 function LoginForm(): JSX.Element {  
-  // eslint-disable-next-line
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false)

@@ -66,6 +66,7 @@ export default class Video {
             this.videoToken = result.providerVideoToken;
             this._townFriendlyName = result.friendlyName;
             this._isPubliclyListed = result.isPubliclyListed;
+            // once a player successfully joined a room, update the player's room id.
             await ProfileService.getInstance().updateRoomId(this._coveyTownID);
             resolve(result);
           })

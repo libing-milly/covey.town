@@ -78,7 +78,7 @@ export default function SignupPop(): JSX.Element {
     
     
     return<>
-    <Button onClick={openSignUp} mr = {4}>
+    <Button onClick={openSignUp} mr = {4} disabled={ProfileService.getInstance().getLoginStatus()}>
       Sign up
     </Button>
     <Modal isOpen={isOpen} onClose={closeSignUp}>

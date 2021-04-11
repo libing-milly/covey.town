@@ -92,7 +92,7 @@ import {
     
     
     return<>
-    <Button onClick={openLogin} mr = {4}>
+    <Button onClick={openLogin} mr = {4} disabled={ProfileService.getInstance().getLoginStatus()}>
       Log in
     </Button>
     <Modal isOpen={isOpen} onClose={closeLogin}>

@@ -28,7 +28,7 @@ import useMaybeVideo from '../../hooks/useMaybeVideo';
 import ProfileService from '../../classes/Services/ProfileServices';
 
 
-
+// the type of data we will receive from server after response unwrapped in ProfileService
 interface ProfileResponse {
         id: string, 
         username: string,  
@@ -42,15 +42,16 @@ const OthersProfile: React.FunctionComponent = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const { currentTownID } = useCoveyAppState();
     const isLoggedIn = ProfileService.getInstance().getLoginStatus();
-    
     const [profiles, setProfiles] = useState<ProfileResponse[]>([]);
     const video = useMaybeVideo();
     const toast = useToast();
 
-   
+    // get all the profiles of the players who are in the same room as current user 
     const getProfiles = useCallback(async() => {
         try{
+            // res contains data of all profiles
             const res = await ProfileService.getInstance().getProfiles();
+            // filter profiles with different room ids out
             setProfiles(res.profiles.filter(
               (p : ProfileResponse) => p.roomId === currentTownID));
             

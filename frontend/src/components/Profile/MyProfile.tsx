@@ -24,12 +24,13 @@ import {
   import useMaybeVideo from '../../hooks/useMaybeVideo';
   import ProfileService from '../../classes/Services/ProfileServices';
 
-  
+/**
+ * 3 profile image options provided for every user.
+ */  
 const pictureOptions = [
   'https://avatarfiles.alphacoders.com/201/201969.jpg',
   'https://avatarfiles.alphacoders.com/125/125254.png',
   'https://avatarfiles.alphacoders.com/251/251721.jpg',
-
 ]
 
   const MyProfile: React.FunctionComponent = () => {
@@ -41,6 +42,7 @@ const pictureOptions = [
     const isLoggedIn = ProfileService.getInstance().getLoginStatus();
     const toast = useToast();
     
+    // get the current user profile from server
     const getProfile  = useCallback( async() => {
       try {
         const res = await ProfileService.getInstance().getCurrentUserProfile();

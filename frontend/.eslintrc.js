@@ -11,7 +11,6 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json',
     warnOnUnsupportedTypeScriptVersion: false,
-    tsconfigRootDir: __dirname,
   },
   settings: {
     react: {
