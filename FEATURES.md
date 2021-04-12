@@ -4,7 +4,7 @@
 
 
 ### Log in
-When the user click the `Login` button, he/she will see a pop up window, he/she can also click `X` to close the pop up window.
+When the user click the `Login` button, he/she will see a pop up window, he/she can also click `X` button on the top right corner of the window to close the pop up window.
 
 The user will be able to login to the application by using the email and the password he/she used to sign up, a username is also required when logining. 
 
