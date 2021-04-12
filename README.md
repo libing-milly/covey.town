@@ -48,7 +48,7 @@ In the `frontend` directory, run `npm start` (again, you'll need to run `npm ins
 The frontend will automatically re-compile and reload in your browser if you change any files in the `frontend/src` directory.
 
 ## Deploying the app
-The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend on a separate git repository at `https://github.com/julianluo/cs5500-project-server4`. To deploy the app, change the `.env` file in the `frontend` directory to as follows:
+The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. The frontend git repository can be accessed at `https://github.com/libing-milly/covey.town`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend on a separate git repository at `https://github.com/julianluo/cs5500-project-server4`. To deploy the app, change the `.env` file in the `frontend` directory to as follows:
 
 `REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
 
