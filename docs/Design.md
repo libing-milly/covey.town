@@ -7,5 +7,24 @@ The change we made on the existing codebase is that we add entries to sign up, l
 
 For the new code, we use Microservice architecture pattern. We add an independent user service. The user service will communicate with the database. All the user information will be stored in a User DB.
 
-Our architecure based on the original one.
+Our high-level architecure based on the original one.
 ![Our Covey.Town Architecture](OurArchitectureForCoveyTown.png)
+
+Detailed design:
+
+### To do
+CRC cards 
+
+### Sign up
+
+
+### Login
+
+
+### Log out
+
+
+### Profile
+
+
+
