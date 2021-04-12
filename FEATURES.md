@@ -4,6 +4,17 @@
 
 
 ### Log in
+When the user click the `Login` button, he/she will see a pop up window, he/she can also click `X` to close the pop up window.
+
+The user will be able to login to the application by using the email and the password he/she used to sign up, a username is also required when logining. 
+
+If the user entered correct email with the correct password, as well as a username, click the `Login` button, the user will be able to login into the application with successfull message, `You have logged in`.
+The headline above the Login button will be changed to `Welcome xxx, you have logged in`.
+Otherwise, an error message will popped up and tell the user that he/she needs to input a correct email or password to log in to the application. 
+If the user fogot to enter either the email addree or the password, error message will pop up accordingly.
+
+The user can also cancel the login process by clicking the `Cancel` button when the login button is still loading. 
+
 
 ### Log out
 
