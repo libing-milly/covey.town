@@ -39,12 +39,7 @@ The backend will automatically restart if you change any of the files in the `se
 
 ### Configuring the frontend
 
-Create a `.env` file in the `frontend` directory, with the line: 
-`REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/` 
-
-`REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
-
-`REACT_APP_USER_API=https://secure-anchorage-87188.herokuapp.com/api/users`
+Create a `.env` file in the `frontend` directory, with the line: `REACT_APP_TOWNS_SERVICE_URL=http://localhost:8081` (if you deploy the rooms/towns service to another location, put that location here instead)
 
 
 ### Running the frontend
@@ -52,9 +47,19 @@ Create a `.env` file in the `frontend` directory, with the line:
 In the `frontend` directory, run `npm start` (again, you'll need to run `npm install` the very first time). After several moments (or minutes, depending on the speed of your machine), a browser will open with the frontend running locally.
 The frontend will automatically re-compile and reload in your browser if you change any files in the `frontend/src` directory.
 
-### Deploying the frontend
+## Deploying the app
+The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend on a separate git repository at `https://github.com/julianluo/cs5500-project-server4`. To deploy the app, change the `.env` file in the `frontend` directory to as follows:
+
+`REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
+
+`REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
+
+`REACT_APP_USER_API=https://secure-anchorage-87188.herokuapp.com/api/users`
+
+### Deploying the frontend to Netlify
 
 In your netlify deploy setting page, add the following environment variables:
+
 `REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
 
 `REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
