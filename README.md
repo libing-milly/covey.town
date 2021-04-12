@@ -40,8 +40,10 @@ The backend will automatically restart if you change any of the files in the `se
 ### Configuring the frontend
 
 Create a `.env` file in the `frontend` directory, with the line: 
-`REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
+`REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/` 
+
 `REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
+
 `REACT_APP_USER_API=https://secure-anchorage-87188.herokuapp.com/api/users`
 
 
@@ -54,5 +56,7 @@ The frontend will automatically re-compile and reload in your browser if you cha
 
 In your netlify deploy setting page, add the following environment variables:
 `REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
+
 `REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
+
 `REACT_APP_USER_API=https://secure-anchorage-87188.herokuapp.com/api/users`
