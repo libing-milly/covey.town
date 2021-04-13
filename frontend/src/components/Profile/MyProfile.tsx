@@ -22,7 +22,7 @@ import {
   import MenuItem from '@material-ui/core/MenuItem';
   import Typography from '@material-ui/core/Typography';
   import useMaybeVideo from '../../hooks/useMaybeVideo';
-  import ProfileService from '../../classes/Services/ProfileServices';
+  import ProfileService from '../../classes/Services/UserServiceClient';
 
 /**
  * 3 profile image options provided for every user.

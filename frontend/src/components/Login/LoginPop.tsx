@@ -14,7 +14,7 @@ import {
     useDisclosure,
     useToast,
   } from '@chakra-ui/react';
-  import ProfileService from '../../classes/Services/ProfileServices';
+  import ProfileService from '../../classes/Services/UserServiceClient';
 
 
   const LoginPop: React.FunctionComponent = () => {

@@ -18,7 +18,7 @@ import {
     InputGroup,
     InputRightElement,
   } from '@chakra-ui/react';
-import ProfileService from '../../classes/Services/ProfileServices';
+import ProfileService from '../../classes/Services/UserServiceClient';
 
 const VARIANT_COLOR = "teal";
 

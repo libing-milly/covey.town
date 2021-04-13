@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import useCoveyAppState from '../../hooks/useCoveyAppState';
 import useMaybeVideo from '../../hooks/useMaybeVideo';
-import ProfileService from '../../classes/Services/ProfileServices';
+import ProfileService from '../../classes/Services/UserServiceClient';
 
 
 // the type of data we will receive from server after response unwrapped in ProfileService

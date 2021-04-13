@@ -25,7 +25,7 @@ import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClie
 import useCoveyAppState from '../../hooks/useCoveyAppState';
 import LoginPop from './LoginPop';
 import SignupPop from './SignupPop';
-import ProfileServices from '../../classes/Services/ProfileServices';
+import ProfileServices from '../../classes/Services/UserServiceClient';
 
 interface TownSelectionProps {
   doLogin: (initData: TownJoinResponse) => Promise<boolean>

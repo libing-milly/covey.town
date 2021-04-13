@@ -1,6 +1,6 @@
 import DebugLogger from '../DebugLogger';
 import TownsServiceClient, { TownJoinResponse } from '../TownsServiceClient';
-import ProfileService from '../Services/ProfileServices';
+import ProfileService from '../Services/UserServiceClient';
 
 export default class Video {
   private static video: Video | null = null;
