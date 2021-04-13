@@ -117,3 +117,6 @@ ngrok.yml
 
 # Local Netlify folder
 .netlify
+
+# local server file
+services/userService/source/config/config.ts
