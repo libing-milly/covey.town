@@ -15,13 +15,7 @@ Detailed design:
 ### To do
 CRC cards 
 
-### Sign up
-
-
-### Login
-
-
-### Log out
+### User
 
 
 ### Profile
