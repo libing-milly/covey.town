@@ -1,7 +1,16 @@
 ## Features of this project
 
 ### Sign up
+When the user click the `Sign up` button, he/she will see a pop up window which has a close button `X` on its top right corner.
 
+The user will be able register his/her own account in this page. The page consists of two parts. In the first part, user need to input their `username`, `Email address` and `Password` to set up their account.
+All three fields are required. A `show` button in the right side of the password input box is provided for user to check what they just typed in.
+The second part is verification part. It contains three questions as well as answers for user to type in, which will be used to find back account if user forgot their passowrd. All these fields are required too.
+
+After filling all input boxes, the user can click `Sign Up` button to register their account. There will be a pop up message says that `Sign Up Successfully! You have been logged in` 
+if nothing goes wrong with the registration procedure, and the user will be logged in automatically. On the contrary, if something goes wrong, there will also be a pop up message says that `Unable to SignUp Your Account` together with other error message to tell you where goes wrong.
+
+The user can also click `Cancel` button to quit.
 
 ### Log in
 When the user click the `Login` button, he/she will see a pop up window, he/she can also click `X` button on the top right corner of the window to close the pop up window.
