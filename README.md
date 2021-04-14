@@ -47,21 +47,62 @@ Create a `.env` file in the `frontend` directory, with the line: `REACT_APP_TOWN
 In the `frontend` directory, run `npm start` (again, you'll need to run `npm install` the very first time). After several moments (or minutes, depending on the speed of your machine), a browser will open with the frontend running locally.
 The frontend will automatically re-compile and reload in your browser if you change any files in the `frontend/src` directory.
 
-## Deploying the app
-The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. The frontend git repository can be accessed at `https://github.com/libing-milly/covey.town`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend on a separate git repository at `https://github.com/julianluo/cs5500-project-server4`. To deploy the app, change the `.env` file in the `frontend` directory to as follows:
+## Additional features
 
-`REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
+Our new features provide the a user profile service, allowing user to sign up or log in with his/her account, and edit profile and view the profiles of the players in the same room. Providing a new way for users to express themselves.
 
-`REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
+You can view our reference deployment of the app with new features at [https://lucid-thompson-d73d99.netlify.app/].
 
-`REACT_APP_USER_API=https://secure-anchorage-87188.herokuapp.com/api/users`
+![High-level-design](docs/High-level-design.png)
 
-### Deploying the frontend to Netlify
+The figure above depicts the high-level architecture of our new features to Covey.Town.
 
-In your netlify deploy setting page, add the following environment variables:
+You can find our high-level architecture under `docs/High-level-design.png`.
 
-`REACT_APP_TOWNS_SERVICE_URL=https://roomservice.covey.town/`
+A backend service (in the `services/userService` directory) implements the application logic: tracking which "towns" are available to be joined, and the state of each of those towns.
 
-`REACT_APP_PROFILE_API=https://secure-anchorage-87188.herokuapp.com/api/profiles`
+The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. The frontend git repository can be accessed at `https://github.com/libing-milly/covey.town`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend under `services/userService` directory. 
+To deploy the app with the new feature, you will need a mongoDB account.
 
-`REACT_APP_USER_API=https://secure-anchorage-87188.herokuapp.com/api/users`
+### Additional steps to set up the backend
+
+1. To run the backend, you will need a MongoDB account. For your convinience, we have provided you an account below.
+
+2. Create a `.env` file in the `services/userService` directory, setting the values as follows:
+
+| Config Value            | Description                               |
+| ----------------------- | ----------------------------------------- |
+| `MONGO_USERNAME`    | Visible on your mongoDB account dashboard. |
+| `MONGO_PASSWORD`    | Visible on your mongoDB account dashboard.   |
+| `MONGO_URL` | Visible on your mongoDB databse by click on 'connect' button   |
+
+for your convinience, we have provided you with an existing database keys:
+
+MONGO_USERNAME=zhiyuan_luo
+
+MONGO_PASSWORD=000000Lzy!
+
+MONGO_URL=cluster0.wi0mo.mongodb.net/project?retryWrites=true&w=majority
+
+### Starting the backend
+
+Once your backend is configured, you can start it by running `npm start` in the `services/userService` directory (the first time you run it, you will also need to run `npm install`).
+
+### Additional step to configure the frontend
+
+Create a `.env` file in the `frontend` directory if you haven't done it already.
+
+Modify your `.env` file to as follows:
+
+`REACT_APP_TOWNS_SERVICE_URL=http://localhost:8081` (if you deploy the rooms/towns service to another location, put that location here instead)
+
+`REACT_APP_PROFILE_API=http://localhost:3000/api/profiles` (if you deploy the rooms/user service to another location, put that location here instead and add `/api/profiles` at the end))
+
+`REACT_APP_USER_API=http://localhost:3000/api/users` (if you deploy the rooms/user service to another location, put that location here instead and add `/api/users` at the end)
+
+### Running the frontend
+
+In the `frontend` directory, run `npm start` (again, you'll need to run `npm install` the very first time). After several moments (or minutes, depending on the speed of your machine), a browser will open with the frontend running locally.
+The frontend will automatically re-compile and reload in your browser if you change any files in the `frontend/src` directory.
+
+
