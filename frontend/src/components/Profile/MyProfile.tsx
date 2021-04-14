@@ -110,8 +110,10 @@ const pictureOptions = [
     }
     
       useEffect(() => {
-        getProfile();
-      }, [getProfile]);
+        if(isLoggedIn) {
+          getProfile();
+        }
+      }, [getProfile, isLoggedIn]);
 
 
     return <>

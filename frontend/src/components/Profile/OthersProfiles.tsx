@@ -67,8 +67,10 @@ const OthersProfile: React.FunctionComponent = () => {
     }, [toast, currentTownID])
     
     useEffect(() => {
+      if(isLoggedIn) {
         getProfiles();
-    }, [getProfiles]);
+      }
+    }, [getProfiles, isLoggedIn]);
 
     const openPlayersList = useCallback(async()=>{
         await getProfiles();
