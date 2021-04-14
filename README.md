@@ -57,9 +57,7 @@ You can view our reference deployment of the app with new features at [https://l
 
 The figure above depicts the high-level architecture of our new features to Covey.Town.
 
-You can find our high-level architecture under `docs/High-level-design.png`.
 
-A backend service (in the `services/userService` directory) implements the application logic: tracking which "towns" are available to be joined, and the state of each of those towns.
 
 The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. The frontend git repository can be accessed at `https://github.com/libing-milly/covey.town`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend under `services/userService` directory. 
 To deploy the app with the new feature, you will need a mongoDB account.
@@ -76,7 +74,7 @@ To deploy the app with the new feature, you will need a mongoDB account.
 | `MONGO_PASSWORD`    | Visible on your mongoDB account dashboard.   |
 | `MONGO_URL` | Visible on your mongoDB databse by click on 'connect' button   |
 
-for your convinience, we have provided you with an existing database keys:
+for your convinience, we have provided you with an account:
 
 MONGO_USERNAME=zhiyuan_luo
 
