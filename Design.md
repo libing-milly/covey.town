@@ -23,8 +23,8 @@ Besides the changes we made in the TownSelection.tsx, you can know more about th
 
 ### Backend Changes
 
-We created the Interface IUser to enable the backend to create User object so that the user can login, register, and sign out. The fields of an User object includes email: string; password: string; question1: string; answer1: string; question2: string; answer2: string; question3: string; answer3: string. The model User implements the IUser interface. The user controller performs methods: validateToken, register, login, getAllUsers, deleteUser, resetPassword, forgetPassword, getUserById.
-We created the Interface IProfile to enable the backend to create profile object to user object so that the user can add, get, update, delete profile. The fields of a Profile object includes userId: string; username: string; imageUrl: string; selfIntro: string; roomId: string. The model User implements the IProfile interface. The profile controller performs methods: createProfileForUser, findProfileForUser, getAllProfiles, getProfileById, updateProfile, deleteProfile.
+1. We created the Interface IUser to enable the backend to create User object so that the user can login, register, and sign out. The fields of an User object includes email: string; password: string; question1: string; answer1: string; question2: string; answer2: string; question3: string; answer3: string. The model User implements the IUser interface. The user controller performs methods: validateToken, register, login, getAllUsers, deleteUser, resetPassword, forgetPassword, getUserById.
+2. We created the Interface IProfile to enable the backend to create profile object to user object so that the user can add, get, update, delete profile. The fields of a Profile object includes userId: string; username: string; imageUrl: string; selfIntro: string; roomId: string. The model User implements the IProfile interface. The profile controller performs methods: createProfileForUser, findProfileForUser, getAllProfiles, getProfileById, updateProfile, deleteProfile.
 
 ### todo
 
