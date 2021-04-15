@@ -1,5 +1,5 @@
 ## Features of this project
-
+### Front-end Features
 ### Sign up
 When the user click the `Sign up` button, he/she will see a pop up window which has a close button `X` on its top right corner.
 
@@ -51,3 +51,7 @@ If a user is not logged in, this feature will be disabled.
 
 User can view the profiles of other logged in players in the same room by clicking on the `Players Profile` button on the bottom right of the menu bar.
 A side bar will show on the right of the window with a list of username. User can view other players' profiles by clicking on the username. 
+
+### Back-end features
+1. Added MongoDB to store the user account information and the profile information belongs to the user.
+2. Implemented a user service as a middle man to connect the front-end with the database
