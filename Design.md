@@ -12,7 +12,7 @@ Our high-level architecure based on the original one.
  After the user login and select a town to join, he/she will be able to see the profile in the Town page as well as see other user's profile within the same town by clicking the profile button. He/sge will also be able to edit his/her own profile.  The UI of the profile page is also a pop up window. 
 
 ### Files we add for the Front-end. 
-Besides the changes we made in the TownSelection.tsx, you can know more about the detailed implementation from `covey.town/frontend/src/components/Login/LoginPop.tsx`, `covey.town/frontend/src/components/Login/SignupPop.tsx`, and `covey.town/frontend/src/classes/Services/UserServiceClient.ts`
+Besides the changes we made in the TownSelection.tsx, you can know more about the detailed implementation from `covey.town/frontend/src/components/Login/LoginPop.tsx`, `covey.town/frontend/src/components/Login/SignupPop.tsx`, `covey.town/frontend/src/components/Profile/MyProfile.tsx`, `covey.town/frontend/src/components/Profile/OthersProfiles.tsx`, and `covey.town/frontend/src/classes/Services/UserServiceClient.ts`
 
 ### Backend Changes
 ### todo 
