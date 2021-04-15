@@ -84,7 +84,7 @@ MONGO_URL=cluster0.wi0mo.mongodb.net/project?retryWrites=true&w=majority
 
 ### Starting the backend with new features
 
-Once your backend is configured, you can start it by running `npm start` in the `services/userService` directory (the first time you run it, you will also need to run `npm install`).
+Once your backend is configured, you can start it by running `npm start` in the `services/userService` directory (the first time you run it, you will also need to run `npm install`). Note that you will need to also run `npm start` in the `services/roomService` directory if you haven't already.
 
 ### Additional step to configure the frontend
 
