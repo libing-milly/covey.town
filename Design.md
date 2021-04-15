@@ -11,7 +11,8 @@ Our high-level architecure based on the original one.
 2. We can get the user login status by the ProfileService, and set the username to what's inputted into log in window. In this way, the user will be able to create a town to join or join any existing Towns.
  After the user login and select a town to join, he/she will be able to see the profile in the Town page as well as see other user's profile within the same town by clicking the profile button. He/sge will also be able to edit his/her own profile.  The UI of the profile page is also a pop up window. 
 
-![Our Front-end components CRC cards](docs/Front-end ComponentsCRCCARD.jpeg)
+### Front-end CRC cards
+![Our Front-end components CRC cards](docs/Front-end-ComponentsCRCCARD.png)
 
 
 ### Files we add for the Front-end. 
