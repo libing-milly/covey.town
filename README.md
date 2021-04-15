@@ -59,8 +59,8 @@ The figure above depicts the high-level architecture of our new features to Cove
 
 
 
-The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. The frontend git repository can be accessed at `https://github.com/libing-milly/covey.town`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend under `services/userService` directory. 
-To deploy the app with the new feature, you will need a mongoDB account.
+The app with new features is currently deployed at `https://lucid-thompson-d73d99.netlify.app/`. The frontend git repository can be accessed at `https://github.com/libing-milly/covey.town`. No modification is made to the original backend in the `services/roomService` directory. Instead, we have our backend under `services/userService` directory. The userService backend is also deployed at `https://secure-anchorage-87188.herokuapp.com/`.
+To deploy the app with the new feature locally, you will need a mongoDB account.
 
 ### Additional steps to set up the backend
 
@@ -82,7 +82,7 @@ MONGO_PASSWORD=000000Lzy!
 
 MONGO_URL=cluster0.wi0mo.mongodb.net/project?retryWrites=true&w=majority
 
-### Starting the backend
+### Starting the backend with new features
 
 Once your backend is configured, you can start it by running `npm start` in the `services/userService` directory (the first time you run it, you will also need to run `npm install`).
 
@@ -98,7 +98,7 @@ Modify your `.env` file to as follows:
 
 `REACT_APP_USER_API=http://localhost:3000/api/users` (if you deploy the rooms/user service to another location, put that location here instead and add `/api/users` at the end)
 
-### Running the frontend
+### Running the frontend with new features
 
 In the `frontend` directory, run `npm start` (again, you'll need to run `npm install` the very first time). After several moments (or minutes, depending on the speed of your machine), a browser will open with the frontend running locally.
 The frontend will automatically re-compile and reload in your browser if you change any files in the `frontend/src` directory.
