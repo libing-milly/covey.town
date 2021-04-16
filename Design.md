@@ -1,6 +1,6 @@
 ### New design structure
 
-For the new code, we use Microservice architecture pattern. We add a UserServieClient and an independent backend user service. The User Service Client will use Rest API to communicate with the user sercice, and the user service will communicate with the database. All the user information will be stored in a User DB.
+For the new code, we use Microservice architecture pattern. We add a UserServieClient and an independent backend user service. The User Service Client will use Rest API to communicate with the user service, and the user service will communicate with the database. All the user information will be stored in a User DB.
 
 Our high-level architecure based on the original one.
 ![Our Covey.Town Architecture](docs/High-level-design.png)
