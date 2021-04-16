@@ -13,7 +13,7 @@ const router = express();
 /** Connect to Mongo */
 mongoose
     .connect(config.mongo.url, config.mongo.options)
-    .then((result) => {
+    .then(() => {
         logging.info(NAMESPACE, 'mongoDB is connected successfully');
     })
     .catch((error) => {
@@ -57,7 +57,7 @@ router.use('/api/users', userRoutes);
 router.use('/api/profiles', profileRoutes);
 
 /** Error handling */
-router.use((req, res, next) => {
+router.use((req, res) => {
     const error = new Error('Not found');
 
     res.status(404).json({

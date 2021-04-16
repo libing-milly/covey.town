@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import logging from '../config/logging';
 import IProfile from '../interfaces/profile';
 
 const ProfileSchema: Schema = new Schema(

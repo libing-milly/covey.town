@@ -1,9 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Profile from '../models/profile';
 
-const createProfileForUser = (req: Request, res: Response, next: NextFunction) => {
-    let { username, imageUrl, selfIntro, roomId } = req.body;
+
+
+const createProfileForUser = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void => {
+    const { username, imageUrl, selfIntro, roomId } = req.body;
 
     const userId = req.params.uid;
 
@@ -46,7 +48,7 @@ const createProfileForUser = (req: Request, res: Response, next: NextFunction) =
         });
 };
 
-const getProfileById = (req: Request, res: Response, next: NextFunction): void => {
+const getProfileById = (req: Request, res: Response): void => {
     const id = req.params.pid;
 
     Profile.findById(id)
@@ -65,7 +67,7 @@ const getProfileById = (req: Request, res: Response, next: NextFunction): void =
                     message: 'get profile by ID successfully'
                 });
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).send({
                 response: {},
                 message: 'catch error and cannot get',
@@ -74,7 +76,7 @@ const getProfileById = (req: Request, res: Response, next: NextFunction): void =
         });
 };
 
-const getAllProfiles = (req: Request, res: Response, next: NextFunction) => {
+const getAllProfiles = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void => {
     Profile.find()
         .exec()
         .then((profiles) => {
@@ -91,9 +93,10 @@ const getAllProfiles = (req: Request, res: Response, next: NextFunction) => {
                 isOK: false
             });
         });
+    
 };
 
-const updateProfile = (req: Request, res: Response, next: NextFunction) => {
+const updateProfile = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void => {
     if (!req) {
         return res.status(400).send({
             response: {},
@@ -119,7 +122,7 @@ const updateProfile = (req: Request, res: Response, next: NextFunction) => {
                     isOK: true
                 });
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).send({
                 response: {},
                 message: 'catch error and cannot update',
@@ -128,7 +131,7 @@ const updateProfile = (req: Request, res: Response, next: NextFunction) => {
         });
 };
 
-const deleteProfile = (req: Request, res: Response, next: NextFunction) => {
+const deleteProfile = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void=> {
     const id = req.params.pid;
 
     Profile.findByIdAndRemove(id)
@@ -143,14 +146,14 @@ const deleteProfile = (req: Request, res: Response, next: NextFunction) => {
                 });
             }
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).send({
                 message: 'catch error and cannot delete'
             });
         });
 };
 
-const findProfileForUser = (req: Request, res: Response, next: NextFunction): void => {
+const findProfileForUser = (req: Request, res: Response): void => {
     const userId = req.params['uid'];
 
     Profile.findOne({ userId: req.params['uid'] })
@@ -169,7 +172,7 @@ const findProfileForUser = (req: Request, res: Response, next: NextFunction): vo
                     message: 'find profile for user successfully'
                 });
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).send({
                 message: 'catch error and cannot get',
                 isOK: false

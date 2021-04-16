@@ -1,6 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import bcryptjs from 'bcryptjs';
 import logging from '../config/logging';
 import User from '../models/user';
 import signJWT from '../functions/authJWT';
@@ -9,7 +8,7 @@ import config from '../config/config';
 
 const NAMESPACE = 'User';
 
-const validateToken = (req: Request, res: Response, next: NextFunction) => {
+const validateToken = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void => {
     logging.info(NAMESPACE, 'token is validated, this user is verified.');
 
     return res.status(200).json({
@@ -17,8 +16,8 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const register = (req: Request, res: Response, next: NextFunction): void => {
-    let { email, password, question1, answer1, question2, answer2, question3, answer3 } = req.body;
+const register = (req: Request, res: Response): void => {
+    const { email, password, question1, answer1, question2, answer2, question3, answer3 } = req.body;
 
     const _user = new User({
         _id: new mongoose.Types.ObjectId(),
@@ -88,8 +87,8 @@ const register = (req: Request, res: Response, next: NextFunction): void => {
     // });
 };
 
-const login = (req: Request, res: Response, next: NextFunction): void => {
-    let { email, password } = req.body;
+const login = (req: Request, res: Response): void => {
+    const { email, password } = req.body;
 
     User.find({ email })
         .exec()
@@ -146,7 +145,7 @@ const login = (req: Request, res: Response, next: NextFunction): void => {
     // });
 };
 
-const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+const getAllUsers = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void => {
     User.find()
         // .select('-password')
         .exec()
@@ -166,7 +165,7 @@ const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
         });
 };
 
-const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+const deleteUser = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void=> {
     const id = req.params.uid;
 
     User.findByIdAndRemove(id)
@@ -191,7 +190,7 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         });
 };
 
-const resetPassword = (req: Request, res: Response, next: NextFunction) => {
+const resetPassword = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void=> {
     if (!req.body) {
         return res.status(400).send({
             message: 'password to reset can not be empty'
@@ -200,14 +199,14 @@ const resetPassword = (req: Request, res: Response, next: NextFunction) => {
 
     const id = req.params.uid;
 
-    let token = req.headers.authorization?.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
     // if (token) {
     //     const decoded = jwt.verify(token, config.server.token.secret);
     //     const userId = decoded.data.userId;
     // }
 
     if (token) {
-        jwt.verify(token, config.server.token.secret, (error, decoded) => {
+        jwt.verify(token, config.server.token.secret, (error) => {
             if (error) {
                 return res.status(404).json({
                     message: error
@@ -222,7 +221,7 @@ const resetPassword = (req: Request, res: Response, next: NextFunction) => {
                             });
                         } else res.send({ message: 'successfully reset' });
                     })
-                    .catch((err) => {
+                    .catch(() => {
                         res.status(500).send({
                             message: 'catch error and cannot reset'
                         });
@@ -236,8 +235,8 @@ const resetPassword = (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const forgetPassword = (req: Request, res: Response, next: NextFunction) => {
-    let { email, answer1, answer2, answer3 } = req.body;
+const forgetPassword = (req: Request, res: Response) : Response<unknown, Record<string, unknown>> | void => {
+    const { email, answer1, answer2, answer3 } = req.body;
 
     User.find({ email })
         .exec()
@@ -279,15 +278,16 @@ const forgetPassword = (req: Request, res: Response, next: NextFunction) => {
             });
         });
 };
-
+/*
 const logout = (req: Request, res: Response, next: NextFunction) => {
     // let token = req.headers.authorization?.split(' ')[1];
     // res.status(200).send({ auth: false, token: null });
     // req.logout();
     // res.redirect('/');
 };
+*/
 
-const getUserById = (req: Request, res: Response, next: NextFunction): void => {
+const getUserById = (req: Request, res: Response): void => {
     const id = req.params.uid;
 
     User.findById(id)
@@ -301,7 +301,7 @@ const getUserById = (req: Request, res: Response, next: NextFunction): void => {
                     message: 'get user by ID successfully'
                 });
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).send({ message: 'catch error and cannot get' });
         });
 };
